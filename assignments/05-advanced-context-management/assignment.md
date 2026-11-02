@@ -28,6 +28,30 @@ cd starter && pip install -r requirements.txt
 python server.py   # runs over STDIO
 ```
 
+> **Heads-up — REST Countries v3.1 has been retired.** Every `restcountries.com/v3.1/...`
+> URL now answers `301` → a JSON error: *"This API version has been deprecated … migrate to
+> our new version (v5)"*. Because `httpx` doesn't follow redirects by default, the starter's
+> `search_countries` gets a `301` and `raise_for_status()` turns it into
+> `{"error": "upstream request failed: ..."}` for **every** query. The new API,
+> `https://api.restcountries.com/countries/v5?q=<name>`, needs a free key
+> (`Authorization: Bearer <key>`, sign up at https://restcountries.com/sign-up; free plan
+> 1,000 requests/month). Its fields changed too, e.g. `names.common`, `capitals[].name`,
+> `currencies` is a list, `flag.url_png`. Read the key from an environment variable (e.g.
+> `RESTCOUNTRIES_API_KEY`) and never commit it. If you don't want an account, the open
+> [`mledoze/countries`](https://github.com/mledoze/countries) dataset that REST Countries was
+> built on has the same v3-style fields (download once, search locally).
+>
+> **Common mistake — `No module named 'mcp.server.fastmcp'`:** `requirements.txt` installs
+> the latest `mcp`, and **mcp 2.x renamed `FastMCP` to `MCPServer`**, so the starter's
+> `from mcp.server.fastmcp import FastMCP` fails on a fresh install. Pin the 1.x SDK with
+> `pip install "mcp>=1.2,<2" httpx` (or change the `mcp` line in `requirements.txt` to
+> `mcp>=1.2,<2`), and check with `python -c "from mcp.server.fastmcp import FastMCP"`.
+>
+> **Tip:** `python server.py` prints nothing and waits — that's normal; it is waiting for an
+> MCP client on STDIN. Use `npx @modelcontextprotocol/inspector python server.py` to try the
+> tools in a browser before registering the server in your client, and use **absolute
+> paths** (including your venv's `python`) in the client config.
+
 ## What to do
 1. **Study** the provided `search_countries` tool: input validation, the data fetch,
    error handling, and the model-friendly return shape.
