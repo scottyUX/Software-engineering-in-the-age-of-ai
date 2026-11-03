@@ -1,0 +1,12 @@
+{
+  "name": "quote-of-the-day",
+  "version": "1.0.0",
+  "description": "A quote-of-the-day web app built with Spec-Driven Development",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/unit/*.test.js"
+  },
+  "keywords": ["quote", "spec-kit"],
+  "license": "MIT"
+}
+
