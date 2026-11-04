@@ -1,0 +1,14 @@
+call,timestamp,model,input_token_count,output_token_count,cached_content_token_count,thoughts_token_count,tool_token_count,total_token_count
+1,2026-10-23T11:47:23.835Z,gemini-3.5-flash-lite,11410,64,0,276,0,11750
+2,2026-10-23T11:47:25.135Z,gemini-3.5-flash-lite,12050,126,0,82,0,12258
+3,2026-10-23T11:47:36.617Z,gemini-3.5-flash-lite,14299,23,0,606,0,14928
+4,2026-10-23T11:47:43.406Z,gemini-3.5-flash-lite,15126,62,0,2732,0,17920
+5,2026-10-23T11:47:44.723Z,gemini-3.5-flash-lite,17987,196,0,20,0,18203
+6,2026-10-23T11:48:03.804Z,gemini-3.5-flash-lite,18622,943,0,475,0,20040
+7,2026-10-23T11:48:08.309Z,gemini-3.5-flash-lite,20685,31,0,37,0,20753
+8,2026-10-23T11:48:16.866Z,gemini-3.5-flash-lite,21576,677,0,620,0,22873
+9,2026-10-23T11:48:26.884Z,gemini-3.5-flash-lite,23653,510,0,237,0,24400
+10,2026-10-23T11:48:33.357Z,gemini-3.5-flash-lite,24770,32,0,16,0,24818
+11,2026-10-23T11:52:28.308Z,gemini-3.5-flash-lite,25007,27,0,46,0,25080
+12,2026-10-23T11:52:30.607Z,gemini-3.5-flash-lite,25271,43,0,26,0,25340
+13,2026-10-23T11:52:32.488Z,gemini-3.5-flash-lite,25388,260,0,24,0,25672
