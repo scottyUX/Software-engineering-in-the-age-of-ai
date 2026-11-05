@@ -57,6 +57,7 @@ class CheckinIn(BaseModel):
 
 @app.post("/habits")
 def create_habit(habit: HabitIn):
+    """Create a new habit."""
     with closing(get_db()) as conn:
         cur = conn.execute("INSERT INTO habits (name) VALUES (?)", (habit.name,))
         conn.commit()
@@ -65,6 +66,7 @@ def create_habit(habit: HabitIn):
 
 @app.get("/habits")
 def list_habits():
+    """List all registered habits."""
     with closing(get_db()) as conn:
         rows = conn.execute("SELECT id, name FROM habits ORDER BY id").fetchall()
     return [dict(r) for r in rows]
@@ -72,6 +74,7 @@ def list_habits():
 
 @app.post("/habits/{habit_id}/checkin")
 def add_checkin(habit_id: int, checkin: CheckinIn):
+    """Record a daily check-in for a specific habit."""
     with closing(get_db()) as conn:
         habit = conn.execute(
             "SELECT id FROM habits WHERE id = ?", (habit_id,)
@@ -88,15 +91,18 @@ def add_checkin(habit_id: int, checkin: CheckinIn):
 
 @app.get("/habits/{habit_id}/checkins")
 def list_checkins(habit_id: int):
+    """List all check-ins for a given habit."""
     with closing(get_db()) as conn:
         rows = conn.execute(
-            "SELECT day FROM checkins WHERE habit_id = ? ORDER BY day", (habit_id,)
+            "SELECT day FROM checkins WHERE habit_id = ? ORDER BY day",
+            (habit_id,),
         ).fetchall()
     return [r["day"] for r in rows]
 
 
 @app.get("/habits/{habit_id}/streak")
 def get_habit_streak(habit_id: int):
+    """Calculate the current consecutive daily streak ending today or yesterday."""
     with closing(get_db()) as conn:
         habit = conn.execute(
             "SELECT id FROM habits WHERE id = ?", (habit_id,)
@@ -116,7 +122,7 @@ def get_habit_streak(habit_id: int):
         try:
             checkin_dates.add(date.fromisoformat(row["day"]))
         except ValueError:
-            continue  # Ignore any malformed legacy dates
+            continue
 
     today = date.today()
     yesterday = today - timedelta(days=1)
@@ -128,7 +134,6 @@ def get_habit_streak(habit_id: int):
     else:
         return {"habit_id": habit_id, "streak": 0}
 
-    # 5. Walk backward day by day until a day is missed
     streak = 0
     while cursor_day in checkin_dates:
         streak += 1
@@ -139,20 +144,22 @@ def get_habit_streak(habit_id: int):
 
 @app.get("/habits/{habit_id}/summary")
 def get_weekly_summary(habit_id: int):
+    """Get the count of distinct check-in days within the rolling 7-day window."""
     with closing(get_db()) as conn:
         habit = conn.execute(
             "SELECT id FROM habits WHERE id = ?", (habit_id,)
         ).fetchone()
         if habit is None:
             raise HTTPException(status_code=404, detail="unknown habit")
-        # Today minus 6 days gives a 7-day window (including today)
+
+        today_str = date.today().isoformat()
         cutoff_date = (date.today() - timedelta(days=6)).isoformat()
-        # COUNT(DISTINCT day) counts unique days, ignoring duplicates
+        # Bound between cutoff_date and today to prevent future check-in contamination
         row = conn.execute(
             """SELECT COUNT(DISTINCT day) as total
                FROM checkins
-               WHERE habit_id = ? AND day >= ?""",
-            (habit_id, cutoff_date),
+               WHERE habit_id = ? AND day >= ? AND day <= ?""",
+            (habit_id, cutoff_date, today_str),
         ).fetchone()
     return {
         "habit_id": habit_id,
