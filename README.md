@@ -25,7 +25,7 @@ AI-augmented software engineering is the practice of using AI systems — code a
 
 ## Midterm
 
-The midterm (25 multiple-choice questions, 1 hour, 30% of the grade) covers Lectures 1–5 and their required readings. See the [Midterm Study Guide](resources/midterm-study-guide/).
+The midterm is on Thursday, November 12, 2026, 16:00–18:00: 25–30 multiple-choice questions, 30% of the grade. It is closed book, but you may bring two copies of your handwritten notes, and one copy is collected. It covers Lectures 1–6 and one required paper, *Lost in the Middle* (Liu et al., 2023). See the [Midterm Study Guide](resources/midterm-study-guide/).
 
 ## Repository Structure
 
