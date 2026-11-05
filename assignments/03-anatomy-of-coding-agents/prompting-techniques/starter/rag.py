@@ -20,13 +20,22 @@ def load_chunks() -> list[str]:
         return [line.strip() for line in f if line.strip()]
 
 
-# TODO: return the subset of chunks relevant to `question` (simple keyword overlap is fine).
 def YOUR_RETRIEVER(question: str, chunks: list[str]) -> list[str]:
-    return []
+    # Simple keyword overlap retriever
+    words = question.lower().split()
+    matched_chunks = [
+        chunk for chunk in chunks 
+        if any(word in chunk.lower() for word in words if len(word) > 3)
+    ]
+    return matched_chunks if matched_chunks else chunks
 
+YOUR_SYSTEM_PROMPT = """You are a helpful customer support assistant.
+Answer the user's question using ONLY the provided retrieved context below.
 
-# TODO: Fill this in! Force the model to answer only from the provided context.
-YOUR_SYSTEM_PROMPT = ""
+Rules:
+1. Base your answer strictly on facts present in the retrieved context.
+2. If the answer cannot be determined from the provided context, reply exactly with: "I do not know"
+"""
 
 CASES = [
     ("How long do I have to return an item?", ["30 days"]),
