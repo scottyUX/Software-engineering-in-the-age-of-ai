@@ -30,8 +30,8 @@ pytest -v
 ## 2. Pull Requests & Feature Implementation
 
 ### PR 1: Habit Streak Endpoint (`GET /habits/{habit_id}/streak`)
-- **PR Link:** [PR 1 - Feature: Streak Endpoint](https://github.com/scottyUX/Software-engineering-in-the-age-of-ai/pull/238)
-- **Problem:** The starter habit tracker lacked any mechanism to compute consecutive daily consistency.
+- **PR Link:** [#245 - Feature: Habit streak calculation endpoint](https://github.com/scottyUX/Software-engineering-in-the-age-of-ai/pull/245)
+- **Problem:** The starter habit tracker lacked an endpoint to compute consecutive daily consistency for a habit.
 - **Approach:** 
   - Added `GET /habits/{habit_id}/streak`.
   - Verifies habit existence (returns `404` if unknown).
@@ -52,7 +52,7 @@ pytest -v
 ---
 
 ### PR 2: Weekly Summary Endpoint (`GET /habits/{habit_id}/summary`)
-- **PR Link:** [PR 2 - Feature: Weekly Summary Endpoint](https://github.com/scottyUX/Software-engineering-in-the-age-of-ai/pull/239)
+- **PR Link:** [#246 - Feature: Weekly summary endpoint](https://github.com/scottyUX/Software-engineering-in-the-age-of-ai/pull/246)
 - **Problem:** Users could not view their rolling 7-day progress to evaluate weekly performance.
 - **Approach:**
   - Added `GET /habits/{habit_id}/summary`.
