@@ -22,11 +22,11 @@ To keep this to ~3 hours, the feature is **pre-scoped** for you (below).
 - The coding agent you set up in Week 1 (Antigravity by default).
 
 ## Setup
-Replace `copilot` with your agent's
+Replace `agy` (antigravity) with your other agent's
 [integration key](https://github.github.io/spec-kit/reference/integrations.html):
 ```bash
 uv tool install specify-cli
-specify init spec-kit-week2 --integration copilot
+specify init spec-kit-week2 --integration agy
 cd spec-kit-week2
 ```
 Launch your agent **inside the project directory**. The `/speckit-*` skills run in the
