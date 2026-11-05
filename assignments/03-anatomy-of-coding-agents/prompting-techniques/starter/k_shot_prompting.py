@@ -12,8 +12,32 @@ from ollama import chat
 MODEL = "llama3.1:8b"
 NUM_RUNS = 5
 
-# TODO: Fill this in! Include a few labeled examples (k-shot) in the system prompt.
-YOUR_SYSTEM_PROMPT = ""
+YOUR_SYSTEM_PROMPT = """You are a ticket router for an online store's support desk.
+Classify each customer message into exactly one label:
+
+billing   - charges, payments, invoices, refunds of money already charged
+shipping  - delivery status, tracking, late or lost packages
+returns   - sending an item back, exchanges, return labels
+technical - the website or app is broken: errors, crashes, login problems
+other     - anything that fits none of the above
+
+Reply with the label only: one lowercase word, no punctuation, no explanation.
+
+Examples:
+Message: Why do I see two payments for the same order on my statement?
+Label: billing
+
+Message: The tracking number hasn't updated in five days.
+Label: shipping
+
+Message: These jeans don't fit, how do I get a return label?
+Label: returns
+
+Message: I get an error page whenever I try to log in.
+Label: technical
+
+Message: Do you have a physical store in Chicago?
+Label: other"""
 
 CASES = [
     ("My card was charged twice for order 4412.", "billing"),
