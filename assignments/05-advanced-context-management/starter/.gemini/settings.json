@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "data-explorer": {
+      "command": "python",
+      "args": ["server.py"],
+      "timeout": 30000,
+      "description": "Country data (search, currencies, languages, borders, flags) from the mledoze/countries dataset"
+    }
+  }
+}
