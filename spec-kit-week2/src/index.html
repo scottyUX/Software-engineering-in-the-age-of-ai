@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Quote of the Day - Daily inspirational and thought-provoking quotes with persistent favoriting.">
+  <title>Quote of the Day</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-layout">
+    <header class="app-header">
+      <h1 class="app-title">Quote of the Day</h1>
+      <p class="app-subtitle">Daily inspiration to illuminate your day</p>
+    </header>
+
+    <main class="app-main">
+      <div id="quote-card-slot">
+        <article id="quote-container" class="quote-card" aria-live="polite" aria-atomic="true">
+          <div class="quote-content-wrapper">
+            <span class="quote-mark-icon" aria-hidden="true">“</span>
+            <blockquote id="quote-text" class="quote-text">Loading inspiration...</blockquote>
+            <figcaption id="quote-author" class="quote-author">—</figcaption>
+          </div>
+          <div class="quote-actions" id="quote-actions">
+            <button id="btn-favorite" class="btn btn-favorite" type="button" aria-pressed="false" aria-label="Add quote to favorites">
+              <span id="favorite-icon" class="favorite-icon" aria-hidden="true">♡</span>
+              <span class="favorite-label">Favorite</span>
+            </button>
+            <button id="btn-copy" class="btn btn-copy" type="button" aria-label="Copy quote to clipboard">
+              <span class="copy-label">Copy</span>
+            </button>
+            <button id="btn-new-quote" class="btn btn-primary" type="button">
+              New quote
+            </button>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      <p>Created with care • Built with vanilla Web standards</p>
+    </footer>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
