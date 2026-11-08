@@ -75,6 +75,7 @@ Use this path if you don't already have a coding agent.
 > If SheerID/student verification is pending, you can still install Antigravity and
 > sign in with a standard (free-tier) Google account to complete the setup task, then
 > attach the student plan once it's approved. Note this in your writeup.
+> To contact SheerID: [SheerID Support Link] (https://support.sheerid.com/en-US/help-center/contact-form)
 
 ## Part 3 — Improve course materials with GitHub CLI
 
