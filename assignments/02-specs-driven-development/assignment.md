@@ -32,6 +32,16 @@ cd spec-kit-week2
 Launch your agent **inside the project directory**. The `/speckit-*` skills run in the
 agent's **chat**, not the terminal.
 
+> **Common mistake:** `specify init` checks that your agent's command-line tool is installed.
+> If you use an agent that runs as a desktop app or editor extension (so there is no CLI
+> on your `PATH`), init stops with `<agent> not found`. Re-run it with
+> `--ignore-agent-tools`, and add `--non-interactive` if it hangs waiting for a prompt:
+> ```bash
+> specify init spec-kit-week2 --integration <key> --non-interactive --ignore-agent-tools
+> ```
+> Then run `git init` and **commit after each stage**. Your history becomes evidence of the
+> constitution → specify → plan → tasks → implement → converge loop for the grader.
+
 ## The feature (pre-scoped — build exactly this)
 > A **quote-of-the-day** page: shows one random quote from a small built-in list, with a
 > "New quote" button, and a way to mark a quote as a favorite that persists on reload.
@@ -46,7 +56,10 @@ Invoke each skill in your agent's chat, **reviewing each artifact before continu
 /speckit-implement
 /speckit-converge
 ```
-Repeat **implement → converge** until it reports **Converged**. At least once, when an
+Repeat **implement → converge** until it reports **Converged**. If `/speckit-converge`
+reports gaps, ask yourself whether the **spec/plan** was vague (a good candidate for your
+documented refinement) or the code simply missed something. Tip: measure the gap (for example,
+run the behavior 1,000 times) so your before/after is evidence, not opinion. At least once, when an
 artifact is vague or wrong, **refine the spec/plan** (not the code) and note what changed.
 
 ## Deliverables
