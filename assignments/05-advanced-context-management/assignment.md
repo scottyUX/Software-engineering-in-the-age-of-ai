@@ -32,7 +32,7 @@ python server.py   # runs over STDIO
 1. **Study** the provided `search_countries` tool: input validation, the data fetch,
    error handling, and the model-friendly return shape.
 2. **Implement a second tool**, `get_country_details(name)`, returning currencies,
-   languages, borders, and the flag URL — reusing the same error-handling pattern.
+   languages, borders, and the flag URL - reusing the same error-handling pattern.
 3. **Harden** both tools: empty/invalid input, HTTP errors, timeouts, and no-result cases
    should all return clean, structured messages (never crash the server).
 4. **Register the server** in an MCP client (Claude Desktop or an MCP-aware IDE) and run
@@ -43,6 +43,7 @@ python server.py   # runs over STDIO
 ## Deliverables
 **Submit the GitHub repository link** for `starter/`, containing:
 - Your finished `server.py` with **two working tools**.
+Tip: if the server failes to connect make sure that the virtual environment is active and required packages are installed.
 - A `README.md`: how to install, run, and register the server, plus a **tool reference**
   (names, parameters, example input/output).
 - A `writeup.md`: a transcript of an agent calling both tools, how you handled errors,
