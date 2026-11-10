@@ -22,14 +22,24 @@ Register the command in an MCP client (Claude Desktop or an MCP-aware IDE), then
 the tools from the client's chat.
 
 ## Register in Claude Desktop (example)
-Add to your client's MCP config:
+Find the interpreter you installed the requirements into (activate your virtual
+environment first, if you use one):
+```bash
+python -c "import sys; print(sys.executable)"
+```
+Add to your client's MCP config, using that absolute path as `command`:
 ```json
 {
   "mcpServers": {
-    "data-explorer": { "command": "python", "args": ["/absolute/path/to/server.py"] }
+    "data-explorer": { "command": "/absolute/path/to/python", "args": ["/absolute/path/to/server.py"] }
   }
 }
 ```
+
+> **Common mistake:** setting `"command": "python"`. The client starts the server itself
+> and may not see your terminal's `PATH` or active environment, so it can fail with
+> `No such file or directory` or `ModuleNotFoundError: No module named 'httpx'`, which
+> the client may only report as a closed connection.
 
 ## Your job
 - Implement `get_country_details(name)` (currencies, languages, borders, flag URL).
