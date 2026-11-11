@@ -28,6 +28,8 @@ free Gemini student account** (steps below).
    git config --global user.name "Your Name"
    git config --global user.email "you@example.com"
    ```
+   > **Tip for Windows users:** If Git is not installed, install it via Winget: `winget install Git.MinGit` (portable, no admin required) or `winget install Git.Git`. Restart your terminal or shell to refresh your `PATH`.
+
 2. **GitHub account** — sign up (use your student email) and add an SSH or HTTPS
    credential so you can push. 
    - **Resource:** [Generating a new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
@@ -148,9 +150,15 @@ Push your branch and open a PR:
 ```bash
 git push -u origin improve-assignment-clarity
 gh pr create \
-  --title "Improve clarity in Assignment 2" \
+  --title "Improve clarity in Assignment 1" \
   --body "Explains what I improved and why it helps future students."
 ```
+
+> **Note for Windows / PowerShell users:** The backslash (`\`) is line continuation for Bash/Linux/macOS shells. In PowerShell, run the command on a single line or use the backtick (`` ` ``) as the line continuation character:
+> ```powershell
+> gh pr create --title "Improve clarity in Assignment 1" --body "Explains what I improved and why it helps future students."
+> ```
+
 
 After you submit, the instructor will review the PR. If it is useful and correct,
 your suggestion may be merged into the official course materials.
