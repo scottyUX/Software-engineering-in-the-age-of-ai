@@ -1,4 +1,6 @@
-fastapi
-uvicorn
-httpx
-pytest
+fastapi==0.115.6
+uvicorn==0.34.0
+httpx==0.28.1
+pytest==8.3.5
+black==24.10.0
+ruff==0.8.4
