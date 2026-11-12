@@ -1,16 +1,8 @@
-"""Habit Tracker — starter app for Week 6.
+"""Habit Tracker — weekly summary feature for Week 6."""
 
-A tiny FastAPI service for habits and daily check-ins. You'll add features on
-branches, open PRs, and compare your manual review with an AI reviewer.
-
-Run:
-    pip install -r requirements.txt
-    uvicorn main:app --reload
-Test:
-    pytest
-"""
 import sqlite3
 from contextlib import closing
+from datetime import date, timedelta
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
@@ -54,7 +46,7 @@ class HabitIn(BaseModel):
 
 
 class CheckinIn(BaseModel):
-    day: str  # ISO date, e.g. "2026-09-22"
+    day: str
 
 
 @app.post("/habits")
@@ -78,9 +70,7 @@ def add_checkin(habit_id: int, checkin: CheckinIn):
         habit = conn.execute("SELECT id FROM habits WHERE id = ?", (habit_id,)).fetchone()
         if habit is None:
             raise HTTPException(status_code=404, detail="unknown habit")
-        conn.execute(
-            "INSERT INTO checkins (habit_id, day) VALUES (?, ?)", (habit_id, checkin.day)
-        )
+        conn.execute("INSERT INTO checkins (habit_id, day) VALUES (?, ?)", (habit_id, checkin.day))
         conn.commit()
     return {"habit_id": habit_id, "day": checkin.day}
 
@@ -92,3 +82,30 @@ def list_checkins(habit_id: int):
             "SELECT day FROM checkins WHERE habit_id = ? ORDER BY day", (habit_id,)
         ).fetchall()
     return [r["day"] for r in rows]
+
+
+def weekly_summary(habit_id: int, today: date | None = None) -> dict[str, int | str]:
+    """Count check-in rows from today back through the previous six days."""
+    end = today or date.today()
+    start = end - timedelta(days=6)
+    with closing(get_db()) as conn:
+        habit = conn.execute("SELECT id FROM habits WHERE id = ?", (habit_id,)).fetchone()
+        if habit is None:
+            raise HTTPException(status_code=404, detail="unknown habit")
+        row = conn.execute(
+            """SELECT COUNT(*) AS count
+               FROM checkins
+               WHERE habit_id = ? AND day BETWEEN ? AND ?""",
+            (habit_id, start.isoformat(), end.isoformat()),
+        ).fetchone()
+    return {
+        "habit_id": habit_id,
+        "start": start.isoformat(),
+        "end": end.isoformat(),
+        "count": row["count"],
+    }
+
+
+@app.get("/habits/{habit_id}/summary")
+def get_weekly_summary(habit_id: int):
+    return weekly_summary(habit_id)
