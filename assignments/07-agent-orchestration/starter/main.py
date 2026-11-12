@@ -11,6 +11,8 @@ Test:
     pytest
 """
 import json
+import math
+import re
 import sqlite3
 from contextlib import closing
 from pathlib import Path
@@ -80,10 +82,13 @@ def create_recipe(recipe: RecipeIn):
 
 
 @app.get("/recipes")
-def list_recipes():
+def list_recipes(tag: str | None = None):
     with closing(get_db()) as conn:
         rows = conn.execute("SELECT * FROM recipes ORDER BY id").fetchall()
-    return [_row_to_recipe(r) for r in rows]
+    recipes = [_row_to_recipe(r) for r in rows]
+    if tag is None:
+        return recipes
+    return [recipe for recipe in recipes if tag in recipe["tags"]]
 
 
 @app.get("/recipes/{recipe_id}")
@@ -93,3 +98,46 @@ def get_recipe(recipe_id: int):
     if row is None:
         raise HTTPException(status_code=404, detail="unknown recipe")
     return _row_to_recipe(row)
+
+
+@app.get("/shopping-list")
+def shopping_list(ids: str = ""):
+    raw_ids = [item.strip() for item in ids.split(",") if item.strip()]
+    try:
+        recipe_ids = [int(item) for item in raw_ids]
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail="ids must be comma-separated integers") from exc
+
+    merged: list[str] = []
+    seen: set[str] = set()
+    with closing(get_db()) as conn:
+        for recipe_id in recipe_ids:
+            row = conn.execute(
+                "SELECT ingredients FROM recipes WHERE id = ?", (recipe_id,)
+            ).fetchone()
+            if row is None:
+                raise HTTPException(status_code=404, detail="unknown recipe")
+            for ingredient in json.loads(row["ingredients"]):
+                if ingredient not in seen:
+                    seen.add(ingredient)
+                    merged.append(ingredient)
+    return merged
+
+
+def _scale_ingredient(ingredient: str, factor: float) -> str:
+    match = re.match(r"^(\d+(?:\.\d+)?)\s+(.+)$", ingredient)
+    if match is None:
+        return ingredient
+    amount = float(match.group(1)) * factor
+    return f"{amount:g} {match.group(2)}"
+
+
+@app.get("/recipes/{recipe_id}/scaled")
+def scaled_recipe(recipe_id: int, factor: float = 1):
+    if not math.isfinite(factor) or factor <= 0:
+        raise HTTPException(status_code=422, detail="factor must be a positive number")
+    recipe = get_recipe(recipe_id)
+    return {
+        **recipe,
+        "ingredients": [_scale_ingredient(item, factor) for item in recipe["ingredients"]],
+    }

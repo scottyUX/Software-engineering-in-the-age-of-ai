@@ -13,6 +13,9 @@ uvicorn main:app --reload   # http://localhost:8000  (UI at /, docs at /docs)
 ## Endpoints
 - `POST /recipes` `{ "title": ..., "ingredients": [...], "tags": [...] }`
 - `GET /recipes`, `GET /recipes/{id}`
+- `GET /recipes?tag=breakfast` filters recipes by an exact tag.
+- `GET /shopping-list?ids=1,2,3` merges ingredients in first-seen order.
+- `GET /recipes/{id}/scaled?factor=2` scales leading numeric quantities.
 
 ## Parallel work with git worktrees
 ```bash
