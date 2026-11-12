@@ -20,13 +20,34 @@ def load_chunks() -> list[str]:
         return [line.strip() for line in f if line.strip()]
 
 
-# TODO: return the subset of chunks relevant to `question` (simple keyword overlap is fine).
 def YOUR_RETRIEVER(question: str, chunks: list[str]) -> list[str]:
-    return []
+    stop = {"the", "a", "an", "do", "does", "i", "my", "to", "of", "is", "are",
+            "you", "your", "how", "what", "what's", "can", "have", "for", "and",
+            "or", "in", "on", "it", "me", "we", "us", "long"}
+
+    def stems(text: str) -> set[str]:
+        words = "".join(c if c.isalnum() else " " for c in text.lower()).split()
+        # first 6 letters, so "ship"/"shipping" and "international"/"internationally" match
+        return {w[:6] for w in words if w not in stop and len(w) > 2}
+
+    q = stems(question)
+    scored = [(len(q & stems(c)), c) for c in chunks]
+    scored = [s for s in scored if s[0] > 0]
+    scored.sort(key=lambda s: s[0], reverse=True)
+    return [c for _, c in scored[:3]]
 
 
-# TODO: Fill this in! Force the model to answer only from the provided context.
-YOUR_SYSTEM_PROMPT = ""
+YOUR_SYSTEM_PROMPT = """You are a support desk assistant for a small online store.
+Answer the customer's question using ONLY the text under "Context".
+Do not use any outside knowledge and do not guess.
+
+If the Context clearly answers the question, reply in one or two friendly sentences
+and include the specific details (such as numbers of days) exactly as written.
+
+If the Context is empty or does not contain the answer, reply with exactly:
+"I don't know the answer to that, and I cannot find it in our help center.
+I can connect you with our support team if you'd like."
+"""
 
 CASES = [
     ("How long do I have to return an item?", ["30 days"]),

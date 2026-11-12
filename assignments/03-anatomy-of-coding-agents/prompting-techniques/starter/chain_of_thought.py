@@ -17,8 +17,30 @@ POLICY = """Refund policy:
 - Final-sale items are never refundable.
 """
 
-# TODO: Fill this in! Encourage step-by-step reasoning, ending with DECISION: YES/NO.
-YOUR_SYSTEM_PROMPT = ""
+YOUR_SYSTEM_PROMPT = """You are a refund eligibility checker for an online store.
+Use the refund policy below to decide if the order qualifies for a refund.
+
+Think step by step. Check each rule one at a time:
+1. Time window: was the purchase within 30 days?
+2. Condition: is the item unused / in original condition?
+3. Final sale: is it a final-sale item? (If yes, it is never refundable.)
+
+Write one short line for each check, saying PASS or FAIL.
+The order is refundable only if ALL three checks pass.
+If the order does not mention something, assume that rule is satisfied.
+
+The LAST line of your answer must be exactly one of these, with nothing after it:
+DECISION: YES
+DECISION: NO
+
+Example:
+Order: Bought 50 days ago, unused, not final sale.
+1. Time window: 50 days is more than 30 days. FAIL.
+2. Condition: unused. PASS.
+3. Final sale: not final sale. PASS.
+One check failed, so the order is not refundable.
+DECISION: NO
+"""
 
 CASES = [
     ("Bought 10 days ago, unused, not final sale.", "YES"),
