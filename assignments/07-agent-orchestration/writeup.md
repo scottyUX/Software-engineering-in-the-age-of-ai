@@ -136,6 +136,54 @@ The generator–critic sequence was:
 
 The original Antigravity agent conversations contain the detailed feedback and revision history.
 
+### Original Generator–Critic Evidence
+
+The following screenshots were captured from the Antigravity agent conversations during the development process. They document the critic's feedback, the generator's revisions, and the final approval.
+
+**Critic Round 1 — REQUEST CHANGES**
+
+The critic evaluated correctness, edge cases, test isolation, and maintainability. The review identified three issues requiring changes.
+
+![Critic Round 1 verdict](evidence/01-verdict.png)
+
+![Critic Round 1 correctness and edge-case evaluation](evidence/02-correctness-edge-cases.png)
+
+![Critic Round 1 test quality evaluation](evidence/03-test-quality.png)
+
+![Critic Round 1 detailed findings](evidence/04-findings.png)
+
+![Critic Round 1 instructions to the generator](evidence/05-generator-instructions.png)
+
+![Critic Round 1 initial test results](evidence/06-test-results.png)
+
+**Generator Revision 1 — 12 Tests Passed**
+
+The generator addressed the critic's findings by introducing isolated test databases, handling empty tag queries, and expanding test coverage.
+
+![Generator Revision 1 test results](evidence/generator-revision-1.png)
+
+**Critic Round 2 — APPROVE**
+
+The critic confirmed that all three findings from Round 1 had been resolved. It also recommended an optional database-level filtering improvement.
+
+![Critic Round 2 approval](evidence/critic-round-2.png)
+
+![Critic Round 2 optional SQL optimization recommendation](evidence/critic-round-2-recommendation.png)
+
+**Generator Revision 2 — 15 Tests Passed**
+
+The generator implemented the optional SQLite optimization and added regression tests for duplicate tags, special characters, and ordering.
+
+![Generator Revision 2 test results](evidence/generator-revision-2.png)
+
+**Final Critic Sign-Off — APPROVED FOR INTEGRATION**
+
+After reviewing the final implementation, the critic approved the Tag Filter for integration.
+
+![Final critic approval](evidence/final-critic-approval.png)
+
+The final implementation was committed as `4fbba2c` and merged into the integration branch as `67f8aee`. After integrating Agent B, the complete test suite passed all 23 tests.
+
 ## Part III — Agent Autonomy and Human Supervision
 
 I allowed each coding agent to implement its assigned feature, edit files in its own worktree, and run tests.
