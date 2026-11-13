@@ -15,7 +15,7 @@ import sqlite3
 from contextlib import closing
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
@@ -80,9 +80,27 @@ def create_recipe(recipe: RecipeIn):
 
 
 @app.get("/recipes")
-def list_recipes():
+def list_recipes(
+    tag: str | None = Query(
+        default=None,
+        description="Filter recipes by tag. Empty or whitespace-only values return all recipes.",
+    ),
+):
     with closing(get_db()) as conn:
-        rows = conn.execute("SELECT * FROM recipes ORDER BY id").fetchall()
+        if tag is not None and tag.strip():
+            target = tag.strip()
+            rows = conn.execute(
+                """
+                SELECT * FROM recipes
+                WHERE EXISTS (
+                    SELECT 1 FROM json_each(recipes.tags) WHERE value = ?
+                )
+                ORDER BY id
+                """,
+                (target,),
+            ).fetchall()
+        else:
+            rows = conn.execute("SELECT * FROM recipes ORDER BY id").fetchall()
     return [_row_to_recipe(r) for r in rows]
 
 
