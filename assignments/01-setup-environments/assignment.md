@@ -46,7 +46,7 @@ free Gemini student account** (steps below).
    ```
 
 ## Part 2 — Get a coding agent
-Tip: If you are already using VS Code, you can simply search and install "Google Antigravity" directly as an extension from the VS Code marketplace instead of downloading a standalone application.
+Tip: If you are already using VS Code, you can simply search and install "Google Antigravity" directly as an extension from the VS Code marketplace instead of downloading a standalone application. The extension would also allow Antigravity to work on directories in your virtual machine. 
 
 ### Option A — You already have one
 Confirm it works: open your editor, start the agent, and have it make a trivial
@@ -99,7 +99,7 @@ sudo apt install gh
 
 gh auth login
 ```
-
+(For macOS on Intel x86_64, Homebrew **no longer provide** support for this platform, as you would find out running the command above. You might want to consider setting up the environment in a **VM**) \
 Follow the prompts and make sure `gh auth status` confirms you are logged in.
 
 ### Clone the course repo
