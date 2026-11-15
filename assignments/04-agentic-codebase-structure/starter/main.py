@@ -11,7 +11,7 @@ Test:
 """
 import sqlite3
 import string
-from contextlib import closing
+from contextlib import asynccontextmanager, closing
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
@@ -21,7 +21,6 @@ from pydantic import BaseModel
 DB_PATH = Path(__file__).parent / "links.db"
 ALPHABET = string.ascii_letters + string.digits
 
-app = FastAPI(title="Link Shortener")
 
 
 def get_db() -> sqlite3.Connection:
@@ -42,7 +41,15 @@ def init_db() -> None:
         conn.commit()
 
 
-init_db()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Create the table when the server starts, not at import time, so importing main
+    # (as the tests do) never touches the real links.db.
+    init_db()
+    yield
+
+
+app = FastAPI(title="Link Shortener", lifespan=lifespan)
 
 
 def encode(n: int) -> str:
@@ -57,7 +64,9 @@ def encode(n: int) -> str:
     return "".join(reversed(chars))
 
 
-UNREACHABLE_ALIASES = {"docs", "redoc", "openapi.json"}
+UNREACHABLE_ALIASES = {"docs", "redoc", "openapi.json", ".", ".."}
+# "/" splits the path; "?" and "#" start a query or fragment, so GET /{code} never sees them.
+UNREACHABLE_CHARS = set("/?#")
 
 
 class ShortenRequest(BaseModel):
@@ -73,7 +82,7 @@ def shorten(req: ShortenRequest):
     if req.alias is not None:
         if not req.alias.strip():
             raise HTTPException(status_code=400, detail="alias must not be empty")
-        if "/" in req.alias or req.alias in UNREACHABLE_ALIASES:
+        if UNREACHABLE_CHARS & set(req.alias) or req.alias in UNREACHABLE_ALIASES:
             raise HTTPException(status_code=400, detail="alias is not reachable")
         with closing(get_db()) as conn:
             try:

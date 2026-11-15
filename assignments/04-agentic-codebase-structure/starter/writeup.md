@@ -1,6 +1,6 @@
 # Week 4 Writeup: An Agent-Ready Link Shortener
 
-**Agent:** Claude Code 2.1.303 (`claude-sonnet-5`). **Task:** 1, custom alias. **Result:** 14
+**Agent:** Claude Code 2.1.303 (`claude-sonnet-5`). **Task:** 1, custom alias. **Result:** 18
 tests pass. Each stage is recorded in [`docs/sessions/`](docs/sessions/).
 
 ## 1. What is in `AGENTS.md`, and why is it broadly available?
@@ -40,8 +40,8 @@ tests, make the smallest change, run `pytest`, and summarize remaining risks.
   ([05](docs/sessions/05-revise.md)); removing the retry loop now fails the test.
 - **Re-review** ([06](docs/sessions/06-re-review.md)) returned **ACCEPT**.
 
-Remaining risks I found: aliases containing `?` or `#` are accepted but unreachable, and
-importing `main.py` still creates an empty `links.db`.
+Remaining risks I found: aliases containing `?` or `#` were accepted but unreachable, and
+importing `main.py` created an empty `links.db`. I fixed both after the PR review.
 
 ## 6. What I learned
 

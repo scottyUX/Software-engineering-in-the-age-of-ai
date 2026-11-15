@@ -12,7 +12,7 @@ A tiny FastAPI + SQLite service. `POST /shorten` stores a URL and returns a shor
 | `tests/AGENTS.md` | Rules for writing tests (loads when you work in `tests/`) |
 | `docs/TASKS.md` | The three feature tasks; implement only the one you are given |
 | `.claude/skills/implement-feature/` | Step-by-step procedure for a feature task |
-| `links.db` | Local SQLite file created at import time; never commit it |
+| `links.db` | Local SQLite file created when the server starts; never commit it |
 
 ## Commands
 

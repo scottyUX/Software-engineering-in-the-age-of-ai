@@ -79,7 +79,7 @@ def test_whitespace_only_alias_returns_400(temp_db):
 
 @pytest.mark.parametrize(
     "alias",
-    ["a/b", "docs", "redoc", "openapi.json"],
+    ["a/b", "sale?x", "sale#x", ".", "..", "docs", "redoc", "openapi.json"],
 )
 def test_unreachable_alias_returns_400(temp_db, alias):
     r = client.post("/shorten", json={"url": "https://example.com", "alias": alias})
