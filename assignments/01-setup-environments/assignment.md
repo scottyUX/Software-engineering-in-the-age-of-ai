@@ -58,9 +58,10 @@ Use this path if you don't already have a coding agent.
 
 1. **Claim a free Gemini / Google AI Pro student plan.**
    - Go to the [Google AI for students offer](https://gemini.google.com/students)
-     and sign in with your **student Google account**.
-   - Follow the verification steps (student email / SheerID) to activate the free
-     plan. This gives you access to the Gemini models Antigravity uses.
+     and sign in with your **personal Google account**.
+   - Follow the verification steps using your student email / SheerID to confirm
+     student eligibility. School-managed Google Workspace accounts may not have
+     access to Gemini. This gives you access to the Gemini models Antigravity uses.
 2. **Download and install Google Antigravity** (Google's agentic development platform):
    - Get it from [antigravity.google](https://antigravity.google/) and install for
      your OS (macOS / Windows / Linux).
