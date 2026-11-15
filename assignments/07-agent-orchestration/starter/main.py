@@ -1,21 +1,14 @@
-"""Recipe Box — starter app for Week 7.
+"""Recipe Box — starter app for Week 7 (Task B: Tag filter).
 
-A tiny FastAPI service for recipes and tags, with a static frontend. Use it as the
-playground for concurrent multi-agent work and a generator-critic loop.
-
-Run:
-    pip install -r requirements.txt
-    uvicorn main:app --reload
-    # open http://localhost:8000/
-Test:
-    pytest
+A tiny FastAPI service for recipes and tags, with a static frontend.
 """
 import json
 import sqlite3
 from contextlib import closing
 from pathlib import Path
+from typing import Optional
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
@@ -80,10 +73,16 @@ def create_recipe(recipe: RecipeIn):
 
 
 @app.get("/recipes")
-def list_recipes():
+def list_recipes(tag: Optional[str] = Query(None, description="Optional tag filter")):
     with closing(get_db()) as conn:
         rows = conn.execute("SELECT * FROM recipes ORDER BY id").fetchall()
-    return [_row_to_recipe(r) for r in rows]
+
+    recipes = [_row_to_recipe(r) for r in rows]
+    if tag is not None and tag.strip():
+        clean_tag = tag.strip().lower()
+        recipes = [r for r in recipes if any(clean_tag == t.lower() for t in r.get("tags", []))]
+
+    return recipes
 
 
 @app.get("/recipes/{recipe_id}")
