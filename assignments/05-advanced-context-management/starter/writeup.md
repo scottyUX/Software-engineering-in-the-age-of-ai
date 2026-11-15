@@ -4,7 +4,7 @@
   `get_country_details` (new).
 - **Client:** Claude Code, with the server registered through an MCP config (`data-explorer`, status
   `connected`). The full session is in [`agent_session.md`](agent_session.md).
-- **Tests:** 37 passing, no network needed (`python -m pytest`).
+- **Tests:** 39 passing, no network needed (`python -m pytest`).
 
 ## Transcript: an agent calling both tools
 
@@ -38,7 +38,8 @@ Two things the transcript shows:
 
 ## How I handled errors
 
-Every failure is returned as data with the same shape, `{"error": "...", "retryable": true|false}`, so
+Every failure is returned as data built around `{"error": "...", "retryable": true|false}`:
+`search_countries` wraps it in a one-item list, and `get_country_details` returns it directly. So
 the server never crashes and the agent can decide whether to retry, rephrase, or stop. Outputs from the
 real server:
 

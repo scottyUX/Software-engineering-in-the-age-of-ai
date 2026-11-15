@@ -213,6 +213,8 @@ def test_details_reject_bad_input(monkeypatch, name, message):
         (lambda mp: serve(mp, status=503), "returned HTTP 503", True),
         (lambda mp: serve(mp, status=404), "returned HTTP 404", False),
         (lambda mp: serve(mp, payload={"oops": True}), "unexpected format", True),
+        (lambda mp: serve(mp, payload=[GERMANY, {"name": None}]), "unexpected format", True),
+        (lambda mp: serve(mp, payload=[{"name": {"common": "Nowhere"}}]), "unexpected format", True),
     ],
 )
 def test_upstream_failures_become_structured_errors(monkeypatch, setup, message, retryable):

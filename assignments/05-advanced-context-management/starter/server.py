@@ -66,7 +66,15 @@ def load_countries() -> list[dict]:
     except ValueError as exc:
         raise DataError("country data source returned invalid JSON", retryable=True) from exc
     # Only cache a payload of the expected shape, so one bad response is not stuck in memory
-    if not isinstance(data, list) or not all(isinstance(c, dict) and "name" in c for c in data):
+    def well_formed(c) -> bool:
+        name = c.get("name") if isinstance(c, dict) else None
+        return (
+            isinstance(name, dict)
+            and isinstance(name.get("common"), str)
+            and isinstance(name.get("official"), str)
+        )
+
+    if not isinstance(data, list) or not all(well_formed(c) for c in data):
         raise DataError("country data source returned data in an unexpected format", retryable=True)
     _countries = data
     return _countries

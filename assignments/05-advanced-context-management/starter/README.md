@@ -114,7 +114,7 @@ pip install pytest
 python -m pytest
 ```
 
-The 37 tests replace `httpx.get` with fakes, so they need no network.
+The 39 tests replace `httpx.get` with fakes, so they need no network.
 
 ## Files
 
