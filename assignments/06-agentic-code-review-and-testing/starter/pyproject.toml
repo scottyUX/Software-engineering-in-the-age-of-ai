@@ -1,0 +1,17 @@
+[tool.black]
+line-length = 100
+target-version = ["py312"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+# E/W: pycodestyle, F: pyflakes (unused imports, undefined names), I: import order,
+# B: bugbear (likely bugs), UP: pyupgrade
+select = ["E", "W", "F", "I", "B", "UP"]
+# FastAPI's Depends()/Query() defaults trip B008 by design
+ignore = ["B008"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
