@@ -59,18 +59,35 @@ def encode(n: int) -> str:
 
 class ShortenRequest(BaseModel):
     url: str
+    alias: str | None = None
 
 
 @app.post("/shorten")
 def shorten(req: ShortenRequest):
     if not req.url.startswith(("http://", "https://")):
         raise HTTPException(status_code=400, detail="url must start with http:// or https://")
+
     with closing(get_db()) as conn:
-        cur = conn.execute("INSERT INTO links (url) VALUES (?)", (req.url,))
-        row_id = cur.lastrowid
-        code = encode(row_id)
-        conn.execute("UPDATE links SET code = ? WHERE id = ?", (code, row_id))
-        conn.commit()
+        if req.alias is not None:
+            clean_alias = req.alias.strip()
+            if not clean_alias:
+                raise HTTPException(status_code=400, detail="alias must not be empty")
+
+            # Check collision
+            existing = conn.execute("SELECT id FROM links WHERE code = ?", (clean_alias,)).fetchone()
+            if existing is not None:
+                raise HTTPException(status_code=409, detail=f"alias '{clean_alias}' is already in use")
+
+            conn.execute("INSERT INTO links (code, url) VALUES (?, ?)", (clean_alias, req.url))
+            conn.commit()
+            code = clean_alias
+        else:
+            cur = conn.execute("INSERT INTO links (url) VALUES (?)", (req.url,))
+            row_id = cur.lastrowid
+            code = encode(row_id)
+            conn.execute("UPDATE links SET code = ? WHERE id = ?", (code, row_id))
+            conn.commit()
+
     return {"code": code, "short_url": f"/{code}"}
 
 
