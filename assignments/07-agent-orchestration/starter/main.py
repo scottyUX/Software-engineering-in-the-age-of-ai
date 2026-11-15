@@ -1,21 +1,14 @@
-"""Recipe Box — starter app for Week 7.
+"""Recipe Box — starter app for Week 7 (Task A: Shopping list).
 
-A tiny FastAPI service for recipes and tags, with a static frontend. Use it as the
-playground for concurrent multi-agent work and a generator-critic loop.
-
-Run:
-    pip install -r requirements.txt
-    uvicorn main:app --reload
-    # open http://localhost:8000/
-Test:
-    pytest
+A tiny FastAPI service for recipes and tags, with a static frontend.
 """
 import json
 import sqlite3
 from contextlib import closing
 from pathlib import Path
+from typing import Optional
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
@@ -93,3 +86,36 @@ def get_recipe(recipe_id: int):
     if row is None:
         raise HTTPException(status_code=404, detail="unknown recipe")
     return _row_to_recipe(row)
+
+
+@app.get("/shopping-list")
+def get_shopping_list(ids: str = Query(..., description="Comma-separated recipe IDs, e.g. 1,2,3")):
+    if not ids.strip():
+        return {"items": []}
+
+    try:
+        id_list = [int(i.strip()) for i in ids.split(",") if i.strip()]
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid recipe ID in list")
+
+    if not id_list:
+        return {"items": []}
+
+    placeholders = ",".join("?" for _ in id_list)
+    with closing(get_db()) as conn:
+        rows = conn.execute(
+            f"SELECT ingredients FROM recipes WHERE id IN ({placeholders})", id_list
+        ).fetchall()
+
+    merged_items = []
+    seen = set()
+    for row in rows:
+        ing_list = json.loads(row["ingredients"])
+        for item in ing_list:
+            clean_item = item.strip()
+            item_key = clean_item.lower()
+            if item_key not in seen:
+                seen.add(item_key)
+                merged_items.append(clean_item)
+
+    return {"items": merged_items}
