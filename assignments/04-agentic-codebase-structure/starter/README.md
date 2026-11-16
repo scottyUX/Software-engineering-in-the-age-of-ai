@@ -6,7 +6,7 @@ A tiny FastAPI + SQLite service that you will make easier for a coding agent to 
 
 ```bash
 pip install -r requirements.txt
-pytest                       # 3 tests should pass
+pytest                       # all tests should pass
 uvicorn main:app --reload    # http://localhost:8000  (docs at /docs)
 ```
 
@@ -20,8 +20,8 @@ curl -X POST localhost:8000/shorten -H 'Content-Type: application/json' \
 
 ## Files
 
-- `main.py` — the app (`POST /shorten`, `GET /{code}`)
-- `test_main.py` — the existing pytest suite
-- `docs/TASKS.md` — choose one feature to implement
-
-Start by running the existing tests, then read all three files before adding agent guidance.
+- `AGENTS.md` — guidance for coding agents (start here)
+- `main.py` — the app (`POST /shorten` with optional `alias`, `GET /{code}`)
+- `tests/` — pytest suite; `tests/AGENTS.md` holds the testing rules
+- `docs/TASKS.md` — feature backlog (task 1, custom alias, is implemented)
+- `.claude/skills/implement-task/SKILL.md` — reusable workflow for a new task
