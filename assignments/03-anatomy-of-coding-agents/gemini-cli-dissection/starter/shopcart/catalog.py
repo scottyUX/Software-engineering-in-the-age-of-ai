@@ -1,3 +1,4 @@
+
 """Product catalog. Prices are stored in integer cents to avoid float rounding."""
 from __future__ import annotations
 
