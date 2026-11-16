@@ -9,6 +9,7 @@ Run:
 Test:
     pytest
 """
+
 import sqlite3
 from contextlib import closing
 from pathlib import Path
@@ -29,20 +30,16 @@ def get_db() -> sqlite3.Connection:
 
 def init_db() -> None:
     with closing(get_db()) as conn:
-        conn.execute(
-            """CREATE TABLE IF NOT EXISTS habits (
+        conn.execute("""CREATE TABLE IF NOT EXISTS habits (
                 id   INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL
-            )"""
-        )
-        conn.execute(
-            """CREATE TABLE IF NOT EXISTS checkins (
+            )""")
+        conn.execute("""CREATE TABLE IF NOT EXISTS checkins (
                 id       INTEGER PRIMARY KEY AUTOINCREMENT,
                 habit_id INTEGER NOT NULL,
                 day      TEXT NOT NULL,
                 FOREIGN KEY (habit_id) REFERENCES habits (id)
-            )"""
-        )
+            )""")
         conn.commit()
 
 
@@ -75,11 +72,14 @@ def list_habits():
 @app.post("/habits/{habit_id}/checkin")
 def add_checkin(habit_id: int, checkin: CheckinIn):
     with closing(get_db()) as conn:
-        habit = conn.execute("SELECT id FROM habits WHERE id = ?", (habit_id,)).fetchone()
+        habit = conn.execute(
+            "SELECT id FROM habits WHERE id = ?", (habit_id,)
+        ).fetchone()
         if habit is None:
             raise HTTPException(status_code=404, detail="unknown habit")
         conn.execute(
-            "INSERT INTO checkins (habit_id, day) VALUES (?, ?)", (habit_id, checkin.day)
+            "INSERT INTO checkins (habit_id, day) VALUES (?, ?)",
+            (habit_id, checkin.day),
         )
         conn.commit()
     return {"habit_id": habit_id, "day": checkin.day}
@@ -92,3 +92,41 @@ def list_checkins(habit_id: int):
             "SELECT day FROM checkins WHERE habit_id = ? ORDER BY day", (habit_id,)
         ).fetchall()
     return [r["day"] for r in rows]
+
+
+@app.get("/habits/{id}/streak")
+def get_habit_streak(id: int):
+    with closing(get_db()) as conn:
+        habit = conn.execute("SELECT id FROM habits WHERE id = ?", (id,)).fetchone()
+        if not habit:
+            raise HTTPException(status_code=404, detail="Habit not found")
+
+        rows = conn.execute(
+            "SELECT DISTINCT day FROM checkins WHERE habit_id = ? ORDER BY day DESC",
+            (id,),
+        ).fetchall()
+
+    if not rows:
+        return {"streak": 0}
+
+    from datetime import datetime, timedelta
+
+    dates = sorted(
+        [datetime.strptime(r["day"], "%Y-%m-%d").date() for r in rows], reverse=True
+    )
+
+    today = datetime.now().date()
+    # Check if the streak starts today or yesterday
+    if dates[0] < today - timedelta(days=1):
+        return {"streak": 0}
+
+    streak = 0
+    expected = dates[0]
+    for d in dates:
+        if d == expected:
+            streak += 1
+            expected -= timedelta(days=1)
+        else:
+            break
+
+    return {"streak": streak}

@@ -25,3 +25,23 @@ def test_checkin_flow():
 def test_checkin_unknown_habit_404():
     r = client.post("/habits/99999/checkin", json={"day": "2026-09-22"})
     assert r.status_code == 404
+
+
+def test_get_streak():
+    from datetime import datetime, timedelta
+
+    today = datetime.now().date()
+    yesterday = today - timedelta(days=1)
+
+    # Create habit
+    res = client.post("/habits", json={"name": "Exercise"})
+    habit_id = res.json()["id"]
+
+    # Checkin yesterday and today
+    client.post(f"/habits/{habit_id}/checkin", json={"day": str(yesterday)})
+    client.post(f"/habits/{habit_id}/checkin", json={"day": str(today)})
+
+    # Verify streak is 2
+    res = client.get(f"/habits/{habit_id}/streak")
+    assert res.status_code == 200
+    assert res.json()["streak"] == 2

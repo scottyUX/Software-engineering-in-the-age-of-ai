@@ -23,3 +23,15 @@ def test_rejects_bad_url():
 def test_unknown_code_404():
     r = client.get("/does-not-exist", follow_redirects=False)
     assert r.status_code == 404
+
+def test_create_short_url_custom_slug_success():
+    response = client.post("/shorten", json={"url": "https://example.com", "custom_slug": "my-custom-link"})
+    assert response.status_code == 200
+    data = response.json()
+    assert data["code"] == "my-custom-link"
+
+def test_create_short_url_custom_slug_conflict():
+    client.post("/shorten", json={"url": "https://example.com", "custom_slug": "taken-slug"})
+    response = client.post("/shorten", json={"url": "https://another.com", "custom_slug": "taken-slug"})
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Custom slug already in use"
