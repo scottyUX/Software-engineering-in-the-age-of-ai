@@ -9,14 +9,18 @@ Run:
 Test:
     pytest
 """
+
+import re
 import sqlite3
 from contextlib import closing
+from datetime import datetime
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
 DB_PATH = Path(__file__).parent / "habits.db"
+DATE_REGEX = re.compile(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}$")
 
 app = FastAPI(title="Habit Tracker")
 
@@ -29,20 +33,16 @@ def get_db() -> sqlite3.Connection:
 
 def init_db() -> None:
     with closing(get_db()) as conn:
-        conn.execute(
-            """CREATE TABLE IF NOT EXISTS habits (
+        conn.execute("""CREATE TABLE IF NOT EXISTS habits (
                 id   INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL
-            )"""
-        )
-        conn.execute(
-            """CREATE TABLE IF NOT EXISTS checkins (
+            )""")
+        conn.execute("""CREATE TABLE IF NOT EXISTS checkins (
                 id       INTEGER PRIMARY KEY AUTOINCREMENT,
                 habit_id INTEGER NOT NULL,
                 day      TEXT NOT NULL,
                 FOREIGN KEY (habit_id) REFERENCES habits (id)
-            )"""
-        )
+            )""")
         conn.commit()
 
 
@@ -52,9 +52,27 @@ init_db()
 class HabitIn(BaseModel):
     name: str
 
+    @field_validator("name")
+    @classmethod
+    def validate_name(cls, v: str) -> str:
+        if not v.strip():
+            raise ValueError("Habit name cannot be empty or whitespace-only")
+        return v.strip()
+
 
 class CheckinIn(BaseModel):
     day: str  # ISO date, e.g. "2026-09-22"
+
+    @field_validator("day")
+    @classmethod
+    def validate_day(cls, v: str) -> str:
+        if not DATE_REGEX.match(v):
+            raise ValueError("Date must be in strict YYYY-MM-DD format")
+        try:
+            datetime.strptime(v, "%Y-%m-%d")
+        except ValueError:
+            raise ValueError(f"Invalid calendar date: {v}") from None
+        return v
 
 
 @app.post("/habits")
@@ -75,11 +93,14 @@ def list_habits():
 @app.post("/habits/{habit_id}/checkin")
 def add_checkin(habit_id: int, checkin: CheckinIn):
     with closing(get_db()) as conn:
-        habit = conn.execute("SELECT id FROM habits WHERE id = ?", (habit_id,)).fetchone()
+        habit = conn.execute(
+            "SELECT id FROM habits WHERE id = ?", (habit_id,)
+        ).fetchone()
         if habit is None:
             raise HTTPException(status_code=404, detail="unknown habit")
         conn.execute(
-            "INSERT INTO checkins (habit_id, day) VALUES (?, ?)", (habit_id, checkin.day)
+            "INSERT INTO checkins (habit_id, day) VALUES (?, ?)",
+            (habit_id, checkin.day),
         )
         conn.commit()
     return {"habit_id": habit_id, "day": checkin.day}
