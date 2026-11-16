@@ -12,9 +12,9 @@
 
 ## Part II: generator–critic loop (Ingredient scaling)
 - **Setup:** the generator ran in one resumed session. The critic was a fresh session each round, read-only, using my rubric.
-- **Rounds:** 6 rounds, of which **5 were revisions**, each committed separately. Tests went 43 → 133.
+- **Rounds:** 8 rounds, of which **7 were revisions**, each committed separately. Tests went 43 → 182.
 - **Human decision:** after round 5 I changed the acceptance criterion for both agents.
-- **Result:** the critic did not sign off. Round 7 hit the Claude usage limit, and the partial round-7 edit was removed from the delivered code. The open finding is documented in the writeup.
+- **Result:** the critic did not sign off. The first round-7 attempt hit the Claude usage limit, so its partial edit was discarded and rounds 7–8 were rerun after the reset. The loop stopped at its 8-round limit: from round 3 on, Tests and Clarity passed, and Correctness failed each round on a rarer spelling of the same pattern. The open finding and my analysis are in the writeup.
 
 ## Autonomy
 - **Edits:** automatic.
