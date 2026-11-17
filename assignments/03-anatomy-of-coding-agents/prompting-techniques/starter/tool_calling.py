@@ -26,11 +26,11 @@ TOOLS = [
         "type": "function",
         "function": {
             "name": "get_order_status",
-            "description": "",  # TODO
+            "description": "Look up the current status of an existing order. Call this before answering an order-status question.",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "order_id": {"type": "string", "description": ""},  # TODO
+                    "order_id": {"type": "string", "description": "The order identifier from the customer message, as a string, for example 1234."},
                 },
                 "required": ["order_id"],
             },
@@ -39,7 +39,7 @@ TOOLS = [
 ]
 
 # TODO: Fill this in! Tell the model to look up the order before answering.
-YOUR_SYSTEM_PROMPT = ""
+YOUR_SYSTEM_PROMPT = "You are an online-store order support assistant.\nFor a request about an order's status, first call get_order_status.\nExtract the order identifier from the user's message and pass it as a string\ncontaining the identifier only, without the word \"order\", a # sign, or spaces.\nNever guess an order status or invent an identifier. If the identifier is missing,\nask the customer for it.\nAfter a tool result is provided, use only that result to give a short factual reply.\nIf the result is \"not found\", say the order was not found and ask the customer\nto check its identifier. Do not claim that a lookup succeeded before calling the tool."
 
 
 def run() -> bool:
@@ -68,3 +68,4 @@ def run() -> bool:
 
 if __name__ == "__main__":
     run()
+
