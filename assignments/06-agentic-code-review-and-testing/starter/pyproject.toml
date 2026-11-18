@@ -1,0 +1,11 @@
+[tool.black]
+line-length = 100
+target-version = ["py312"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+# E/W: pycodestyle, F: pyflakes, I: import order, B: bugbear, UP: pyupgrade
+select = ["E", "F", "W", "I", "B", "UP"]

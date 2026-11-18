@@ -10,6 +10,18 @@ pytest                      # 3 tests should pass
 uvicorn main:app --reload   # http://localhost:8000  (docs at /docs)
 ```
 
+## Guardrails
+
+```bash
+pip install -r requirements-dev.txt
+ruff check .        # lint: unused imports, undefined names, import order, likely bugs (bugbear)
+black --check .     # format: fails if any file is not black-formatted (run `black .` to fix)
+pytest -q           # tests: exits 1 on any failing test
+```
+
+All three run in GitHub Actions (`.github/workflows/ci.yml`) on every push, and any failure
+fails the build. Settings live in `pyproject.toml`: both tools use a 100-character line length.
+
 ## Endpoints
 - `POST /habits` `{ "name": ... }`
 - `GET /habits`
