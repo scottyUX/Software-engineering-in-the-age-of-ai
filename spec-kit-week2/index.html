@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quote of the Day</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="header-content">
+        <h1 class="app-title">Quote of the Day</h1>
+        <button id="btn-open-favorites" class="btn btn-secondary icon-btn" aria-label="View saved favorites" title="View saved favorites">
+          <span class="icon" aria-hidden="true">★</span>
+          <span class="btn-text">Favorites (<span id="favorites-count">0</span>)</span>
+        </button>
+      </div>
+      <div id="storage-warning" class="storage-warning" role="alert" aria-hidden="true" hidden>
+        <span class="warning-icon" aria-hidden="true">⚠️</span>
+        <span class="warning-text">Local storage is unavailable. Favorites will only be saved for this browser session.</span>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <article id="quote-card" class="quote-card" aria-live="polite">
+        <div class="quote-icon" aria-hidden="true">“</div>
+        <blockquote id="quote-text" class="quote-text">
+          Loading quote...
+        </blockquote>
+        <div class="quote-meta">
+          <span class="dash" aria-hidden="true">—</span>
+          <cite id="quote-author" class="quote-author">...</cite>
+          <span id="quote-category" class="quote-category"></span>
+        </div>
+
+        <div class="card-actions">
+          <button id="btn-favorite" class="btn btn-favorite" aria-label="Toggle favorite" aria-pressed="false" title="Favorite this quote">
+            <span class="star-icon" aria-hidden="true">★</span>
+            <span id="favorite-btn-text" class="favorite-label">Favorite</span>
+          </button>
+          <button id="btn-new-quote" class="btn btn-primary" aria-label="Get new quote">
+            <span class="icon" aria-hidden="true">↻</span>
+            <span>New quote</span>
+          </button>
+        </div>
+      </article>
+    </main>
+
+    <!-- Favorites Drawer / Sidebar -->
+    <aside id="favorites-drawer" class="favorites-drawer" role="region" aria-label="Saved Favorites" aria-hidden="true">
+      <div class="drawer-header">
+        <h2 class="drawer-title">Saved Favorites</h2>
+        <button id="btn-close-favorites" class="btn-close" aria-label="Close favorites panel">×</button>
+      </div>
+      <div class="drawer-body">
+        <div id="favorites-empty" class="favorites-empty">
+          <p>No favorite quotes saved yet.</p>
+          <p class="empty-hint">Click the star button on any quote to add it to your favorites!</p>
+        </div>
+        <ul id="favorites-list" class="favorites-list" aria-label="Saved quotes list"></ul>
+      </div>
+    </aside>
+    <div id="drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div>
+  </div>
+
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
