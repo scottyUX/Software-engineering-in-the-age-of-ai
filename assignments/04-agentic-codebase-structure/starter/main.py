@@ -17,6 +17,7 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
+from typing import Optional
 
 DB_PATH = Path(__file__).parent / "links.db"
 ALPHABET = string.ascii_letters + string.digits
@@ -59,6 +60,7 @@ def encode(n: int) -> str:
 
 class ShortenRequest(BaseModel):
     url: str
+    alias: Optional[str] = None
 
 
 @app.post("/shorten")
@@ -66,6 +68,16 @@ def shorten(req: ShortenRequest):
     if not req.url.startswith(("http://", "https://")):
         raise HTTPException(status_code=400, detail="url must start with http:// or https://")
     with closing(get_db()) as conn:
+        if req.alias:
+            # Check if the alias is already taken
+            existing = conn.execute("SELECT id FROM links WHERE code = ?", (req.alias,)).fetchone
+
+            if existing:
+                raise HTTPException(status_code=409, detail="Alias already in use")
+
+            conn.execute("INSERT INTO links (url, code) VALUES (?, ?)", (req.url, req.alias))
+            conn.commit()
+            return {"code": req.alias, "short_url": f"/{req.alias}"}
         cur = conn.execute("INSERT INTO links (url) VALUES (?)", (req.url,))
         row_id = cur.lastrowid
         code = encode(row_id)
