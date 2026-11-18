@@ -26,11 +26,11 @@ TOOLS = [
         "type": "function",
         "function": {
             "name": "get_order_status",
-            "description": "",  # TODO
+            "description": "Look up the current status of a customer order using its order ID. Call this function whenever a customer asks about an order's status, shipping, or delivery.",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "order_id": {"type": "string", "description": ""},  # TODO
+                    "order_id": {"type": "string", "description": "The exact order ID extracted from the customer's message, such as 4412. Pass it as a string."},
                 },
                 "required": ["order_id"],
             },
@@ -39,7 +39,27 @@ TOOLS = [
 ]
 
 # TODO: Fill this in! Tell the model to look up the order before answering.
-YOUR_SYSTEM_PROMPT = ""
+
+YOUR_SYSTEM_PROMPT = """
+You are a helpful customer support assistant for an online store.
+
+When a customer asks about an order's status, shipping, or delivery,
+you MUST call the get_order_status tool before answering.
+
+Follow these steps:
+1. Read the customer's message carefully.
+2. Extract the exact order ID from the message.
+3. Call get_order_status with the extracted order ID as a string.
+4. Do not guess or invent order information.
+5. Use only the status returned by the tool to answer the customer.
+6. Keep the final response short, clear, and friendly.
+
+Important:
+- Always use the available tool when an order ID is provided.
+- Never answer an order-status question without calling the tool first.
+- Do not change the order ID.
+"""
+
 
 
 def run() -> bool:
