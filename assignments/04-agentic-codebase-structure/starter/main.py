@@ -34,11 +34,16 @@ def init_db() -> None:
     with closing(get_db()) as conn:
         conn.execute(
             """CREATE TABLE IF NOT EXISTS links (
-                id   INTEGER PRIMARY KEY AUTOINCREMENT,
-                code TEXT UNIQUE,
-                url  TEXT NOT NULL
+                id     INTEGER PRIMARY KEY AUTOINCREMENT,
+                code   TEXT UNIQUE,
+                url    TEXT NOT NULL,
+                clicks INTEGER NOT NULL DEFAULT 0
             )"""
         )
+        # Upgrade a links.db created before the click counter existed.
+        columns = {row["name"] for row in conn.execute("PRAGMA table_info(links)")}
+        if "clicks" not in columns:
+            conn.execute("ALTER TABLE links ADD COLUMN clicks INTEGER NOT NULL DEFAULT 0")
         conn.commit()
 
 
@@ -74,10 +79,21 @@ def shorten(req: ShortenRequest):
     return {"code": code, "short_url": f"/{code}"}
 
 
+@app.get("/stats/{code}")
+def stats(code: str):
+    with closing(get_db()) as conn:
+        row = conn.execute("SELECT url, clicks FROM links WHERE code = ?", (code,)).fetchone()
+    if row is None:
+        raise HTTPException(status_code=404, detail="unknown code")
+    return {"url": row["url"], "clicks": row["clicks"]}
+
+
 @app.get("/{code}")
 def redirect(code: str):
     with closing(get_db()) as conn:
         row = conn.execute("SELECT url FROM links WHERE code = ?", (code,)).fetchone()
-    if row is None:
-        raise HTTPException(status_code=404, detail="unknown code")
+        if row is None:
+            raise HTTPException(status_code=404, detail="unknown code")
+        conn.execute("UPDATE links SET clicks = clicks + 1 WHERE code = ?", (code,))
+        conn.commit()
     return RedirectResponse(url=row["url"], status_code=307)
