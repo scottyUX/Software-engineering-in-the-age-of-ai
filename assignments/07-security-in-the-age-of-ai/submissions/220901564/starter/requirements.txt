@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+httpx
+pytest
+requests==2.34.2
