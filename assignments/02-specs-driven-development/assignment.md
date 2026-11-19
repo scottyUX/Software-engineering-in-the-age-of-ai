@@ -22,6 +22,22 @@ To keep this to ~3 hours, the feature is **pre-scoped** for you (below).
 - The coding agent you set up in Week 1 (Antigravity by default).
 
 ## Setup
+
+### Verify Your Environment
+
+Before installing Spec Kit, check that Python and uv are available in your terminal:
+
+```bash
+python --version
+uv --version
+```
+
+Python 3.11 or newer is required.
+
+**Windows tip:** If you have multiple Python versions installed, use `py -0p` to list them. You can also run `py -3.12 --version` to verify that Python 3.12 is installed.
+
+If `uv` is not recognized, install it using the official link provided in the Prerequisites section.
+
 Replace `copilot` with your agent's
 [integration key](https://github.github.io/spec-kit/reference/integrations.html):
 ```bash
