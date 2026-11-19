@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quote of the Day - Test Suite Runner</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1 { margin-bottom: 0.5rem; }
+    .summary-card {
+      padding: 1.25rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      font-weight: 600;
+    }
+    .summary-card.pass {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #86efac;
+    }
+    .summary-card.fail {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
+    .suite-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .suite-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 0.5rem;
+    }
+    .test-item {
+      padding: 0.5rem 0;
+      display: flex;
+      align-items: flex-start;
+      border-bottom: 1px solid #f8fafc;
+    }
+    .test-status {
+      font-weight: bold;
+      margin-right: 0.75rem;
+      width: 1.5rem;
+    }
+    .test-status.pass { color: #16a34a; }
+    .test-status.fail { color: #dc2626; }
+    .test-error {
+      margin-top: 0.25rem;
+      padding: 0.5rem;
+      background: #fee2e2;
+      color: #7f1d1d;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quote of the Day - Test Runner</h1>
+  <p>Automated test results for Unit and Integration suites.</p>
+  <div id="summary" class="summary-card">Running tests...</div>
+  <div id="results"></div>
+
+  <script type="module">
+    import { testResults } from './test-utils.js';
+
+    // Import test suites
+    try {
+      await import('./unit/storage.test.js');
+    } catch (e) {
+      console.warn("Storage test suite not yet loaded:", e);
+    }
+    try {
+      await import('./unit/quote-manager.test.js');
+    } catch (e) {
+      console.warn("QuoteManager test suite not yet loaded:", e);
+    }
+    try {
+      await import('./integration/app-flow.test.js');
+    } catch (e) {
+      console.warn("Integration test suite not yet loaded:", e);
+    }
+
+    // Render results
+    const summaryEl = document.getElementById('summary');
+    const resultsEl = document.getElementById('results');
+
+    const isAllPassed = testResults.failed === 0 && testResults.total > 0;
+    summaryEl.className = `summary-card ${isAllPassed ? 'pass' : 'fail'}`;
+    summaryEl.textContent = `Total: ${testResults.total} | Passed: ${testResults.passed} | Failed: ${testResults.failed}`;
+
+    resultsEl.innerHTML = '';
+    for (const suite of testResults.suites) {
+      const suiteDiv = document.createElement('div');
+      suiteDiv.className = 'suite-card';
+
+      const title = document.createElement('div');
+      title.className = 'suite-title';
+      title.textContent = `${suite.name} (${suite.passed}/${suite.tests.length} passed)`;
+      suiteDiv.appendChild(title);
+
+      for (const t of suite.tests) {
+        const item = document.createElement('div');
+        item.className = 'test-item';
+
+        const statusSpan = document.createElement('span');
+        statusSpan.className = `test-status ${t.passed ? 'pass' : 'fail'}`;
+        statusSpan.textContent = t.passed ? '✔' : '✖';
+
+        const textDiv = document.createElement('div');
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = t.name;
+        textDiv.appendChild(nameSpan);
+
+        if (!t.passed && t.error) {
+          const errDiv = document.createElement('div');
+          errDiv.className = 'test-error';
+          errDiv.textContent = t.error;
+          textDiv.appendChild(errDiv);
+        }
+
+        item.appendChild(statusSpan);
+        item.appendChild(textDiv);
+        suiteDiv.appendChild(item);
+      }
+      resultsEl.appendChild(suiteDiv);
+    }
+
+    console.log("TEST RUN COMPLETE:", testResults);
+  </script>
+</body>
+</html>
