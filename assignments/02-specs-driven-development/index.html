@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quote of the Day</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="quote-card" aria-live="polite">
+        <p class="eyebrow">Quote of the Day</p>
+        <blockquote id="quote-text">
+          Loading quote...
+        </blockquote>
+        <p id="quote-author" class="quote-author"></p>
+
+        <div class="actions">
+          <button id="new-quote-btn" type="button" class="primary-btn">
+            New quote
+          </button>
+          <button id="favorite-btn" type="button" class="secondary-btn" aria-pressed="false">
+            Add to favorites
+          </button>
+        </div>
+      </section>
+
+      <section class="favorites-panel" aria-labelledby="favorites-heading">
+        <div class="favorites-header">
+          <h2 id="favorites-heading">Favorites</h2>
+          <span id="favorites-count" class="favorites-count">0</span>
+        </div>
+        <ul id="favorites-list" class="favorites-list" aria-live="polite"></ul>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

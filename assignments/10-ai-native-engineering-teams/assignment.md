@@ -37,6 +37,11 @@ keep costs at zero.
    routing policy that keeps quality acceptable while cutting cost, with the rough savings
    vs. "always use the strong model".
 
+   > **Fallback measurement:** Treat a fallback as one end-to-end request.
+   > Record the total latency from the primary attempt through the fallback
+   > response. For cost, include the usage reported for each attempt when
+   > available, and record fallback cases separately from normal routes.
+
 ## Deliverables
 **Submit the GitHub repository link** for `starter/` and a `writeup.md`:
 1. Your routing + fallback config (models and rules) — keys via env, **never committed**.
