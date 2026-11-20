@@ -9,12 +9,15 @@ Run:
 Test:
     pytest
 """
+
+import datetime
 import sqlite3
+import unicodedata
 from contextlib import closing
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
 DB_PATH = Path(__file__).parent / "habits.db"
 
@@ -29,20 +32,16 @@ def get_db() -> sqlite3.Connection:
 
 def init_db() -> None:
     with closing(get_db()) as conn:
-        conn.execute(
-            """CREATE TABLE IF NOT EXISTS habits (
+        conn.execute("""CREATE TABLE IF NOT EXISTS habits (
                 id   INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL
-            )"""
-        )
-        conn.execute(
-            """CREATE TABLE IF NOT EXISTS checkins (
+            )""")
+        conn.execute("""CREATE TABLE IF NOT EXISTS checkins (
                 id       INTEGER PRIMARY KEY AUTOINCREMENT,
                 habit_id INTEGER NOT NULL,
                 day      TEXT NOT NULL,
                 FOREIGN KEY (habit_id) REFERENCES habits (id)
-            )"""
-        )
+            )""")
         conn.commit()
 
 
@@ -52,9 +51,31 @@ init_db()
 class HabitIn(BaseModel):
     name: str
 
+    @field_validator("name")
+    @classmethod
+    def name_not_blank(cls, value: str) -> str:
+        value = value.strip()
+        # strip() keeps invisible characters (U+200B, NUL, combining marks on their own),
+        # so require a letter, number, punctuation mark, or symbol.
+        if not any(unicodedata.category(ch)[0] in "LNPS" for ch in value):
+            raise ValueError("name must not be empty")
+        return value
+
 
 class CheckinIn(BaseModel):
     day: str  # ISO date, e.g. "2026-09-22"
+
+    @field_validator("day")
+    @classmethod
+    def day_is_iso_date(cls, value: str) -> str:
+        try:
+            parsed = datetime.date.fromisoformat(value)
+        except ValueError:
+            parsed = None
+        # fromisoformat also accepts "20260922" and "2026-W39-2"; only store YYYY-MM-DD.
+        if parsed is None or parsed.isoformat() != value:
+            raise ValueError("day must be a real date in YYYY-MM-DD format")
+        return value
 
 
 @app.post("/habits")
@@ -78,9 +99,7 @@ def add_checkin(habit_id: int, checkin: CheckinIn):
         habit = conn.execute("SELECT id FROM habits WHERE id = ?", (habit_id,)).fetchone()
         if habit is None:
             raise HTTPException(status_code=404, detail="unknown habit")
-        conn.execute(
-            "INSERT INTO checkins (habit_id, day) VALUES (?, ?)", (habit_id, checkin.day)
-        )
+        conn.execute("INSERT INTO checkins (habit_id, day) VALUES (?, ?)", (habit_id, checkin.day))
         conn.commit()
     return {"habit_id": habit_id, "day": checkin.day}
 
