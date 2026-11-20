@@ -1,0 +1,11 @@
+[tool.black]
+line-length = 100
+extend-exclude = "/env/"
+
+[tool.ruff]
+line-length = 100
+extend-exclude = ["env"]
+
+[tool.ruff.lint]
+# pycodestyle, pyflakes, import order, likely bugs (bugbear)
+select = ["E", "F", "I", "B"]

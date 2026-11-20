@@ -9,6 +9,8 @@ Run:
 Test:
     pytest
 """
+
+import datetime
 import sqlite3
 from contextlib import closing
 from pathlib import Path
@@ -29,20 +31,16 @@ def get_db() -> sqlite3.Connection:
 
 def init_db() -> None:
     with closing(get_db()) as conn:
-        conn.execute(
-            """CREATE TABLE IF NOT EXISTS habits (
+        conn.execute("""CREATE TABLE IF NOT EXISTS habits (
                 id   INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL
-            )"""
-        )
-        conn.execute(
-            """CREATE TABLE IF NOT EXISTS checkins (
+            )""")
+        conn.execute("""CREATE TABLE IF NOT EXISTS checkins (
                 id       INTEGER PRIMARY KEY AUTOINCREMENT,
                 habit_id INTEGER NOT NULL,
                 day      TEXT NOT NULL,
                 FOREIGN KEY (habit_id) REFERENCES habits (id)
-            )"""
-        )
+            )""")
         conn.commit()
 
 
@@ -78,9 +76,7 @@ def add_checkin(habit_id: int, checkin: CheckinIn):
         habit = conn.execute("SELECT id FROM habits WHERE id = ?", (habit_id,)).fetchone()
         if habit is None:
             raise HTTPException(status_code=404, detail="unknown habit")
-        conn.execute(
-            "INSERT INTO checkins (habit_id, day) VALUES (?, ?)", (habit_id, checkin.day)
-        )
+        conn.execute("INSERT INTO checkins (habit_id, day) VALUES (?, ?)", (habit_id, checkin.day))
         conn.commit()
     return {"habit_id": habit_id, "day": checkin.day}
 
@@ -92,3 +88,34 @@ def list_checkins(habit_id: int):
             "SELECT day FROM checkins WHERE habit_id = ? ORDER BY day", (habit_id,)
         ).fetchall()
     return [r["day"] for r in rows]
+
+
+def parse_days(values: list[str]) -> set[datetime.date]:
+    """Parse stored check-in days, skipping values that are not ISO dates.
+
+    Older rows may hold malformed text; one bad row must not break the whole habit.
+    """
+    days = set()
+    for value in values:
+        try:
+            days.add(datetime.date.fromisoformat(value))
+        except ValueError:
+            continue
+    return days
+
+
+@app.get("/habits/{habit_id}/streak")
+def get_habit_streak(habit_id: int):
+    with closing(get_db()) as conn:
+        habit = conn.execute("SELECT id FROM habits WHERE id = ?", (habit_id,)).fetchone()
+        if habit is None:
+            raise HTTPException(status_code=404, detail="unknown habit")
+        rows = conn.execute("SELECT day FROM checkins WHERE habit_id = ?", (habit_id,)).fetchall()
+
+    checkin_days = parse_days([r["day"] for r in rows])
+    day = datetime.date.today()
+    streak = 0
+    while day in checkin_days:
+        streak += 1
+        day -= datetime.timedelta(days=1)
+    return {"streak": streak}
