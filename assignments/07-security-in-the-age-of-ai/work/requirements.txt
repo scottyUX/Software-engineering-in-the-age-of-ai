@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+httpx
+pytest
+# FIXED (SCA): was requests==2.25.1 (known CVEs, e.g. CVE-2023-32681 Proxy-Authorization
+# leak, CVE-2024-35195, CVE-2024-47081). 2.32.4 contains the fixes.
+requests>=2.33.0

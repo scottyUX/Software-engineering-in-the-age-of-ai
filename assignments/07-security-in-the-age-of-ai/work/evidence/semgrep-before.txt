@@ -1,0 +1,64 @@
+﻿METRICS: Using configs from the Registry (like --config=p/ci) reports pseudonymous rule metrics to semgrep.dev.
+To disable Registry rule metrics, use "--metrics=off".
+When using configs only from local files (like --config=xyz.yml) metrics are sent only when the user is logged in.
+
+More information: https://semgrep.dev/docs/metrics
+
+               
+               
+ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+Γöé Scan Status Γöé
+ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+  Scanning 6 files tracked by git with 1074 Code rules:
+                                                                                                                        
+  Language      Rules   Files          Origin      Rules                                                                
+ ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ        ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ                                                               
+  <multilang>      60       6          Community    1074                                                                
+  python          243       2                                                                                           
+  html              1       1                                                                                           
+                                                                                                                        
+                
+                
+ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+Γöé Scan Summary Γöé
+ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+Γ£à Scan completed successfully.
+ ΓÇó Findings: 3 (3 blocking)
+ ΓÇó Rules run: 304
+ ΓÇó Targets scanned: 6
+ ΓÇó Parsed lines: ~100.0%
+ ΓÇó Scan was limited to files tracked by git
+ ΓÇó For a detailed list of skipped files and lines, run semgrep with the --verbose flag
+Ran 304 rules on 6 files: 3 findings.
+                   
+                   
+ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+Γöé 3 Code Findings Γöé
+ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+           
+    main.py
+    Γ¥»Γ¥▒ python.fastapi.security.wildcard-cors.wildcard-cors
+          Γ¥░Γ¥░ Blocking Γ¥▒Γ¥▒
+          CORS policy allows any origin (using wildcard '*'). This is insecure and should be avoided.
+          Details: https://sg.run/KxApY                                                              
+                                                                                                     
+           41Γöå allow_origins=["*"],
+   
+    Γ¥»Γ¥▒ python.lang.security.audit.formatted-sql-query.formatted-sql-query
+          Γ¥░Γ¥░ Blocking Γ¥▒Γ¥▒
+          Detected possible formatted SQL query. Use parameterized queries instead.
+          Details: https://sg.run/EkWw                                             
+                                                                                   
+          102Γöå rows = conn.execute(query).fetchall()
+   
+   Γ¥»Γ¥»Γ¥▒ python.sqlalchemy.security.sqlalchemy-execute-raw-query.sqlalchemy-execute-raw-query
+          Γ¥░Γ¥░ Blocking Γ¥▒Γ¥▒
+          Avoiding SQL string concatenation: untrusted input concatenated with raw SQL query can result in SQL
+          Injection. In order to execute raw query safely, prepared statement should be used. SQLAlchemy      
+          provides TextualSQL to easily used prepared statement with named parameters. For complex SQL        
+          composition, use SQL Expression Language or Schema Definition Language. In most cases, SQLAlchemy   
+          ORM will be a better option.                                                                        
+          Details: https://sg.run/2b1L                                                                        
+                                                                                                              
+          102Γöå rows = conn.execute(query).fetchall()
+
