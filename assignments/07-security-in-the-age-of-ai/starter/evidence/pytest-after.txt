@@ -1,0 +1,24 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.14.3, pytest-9.1.1, pluggy-1.7.0 -- /Users/zuhalcolak/.gemini/antigravity/scratch/venv/bin/python3.14
+cachedir: .pytest_cache
+rootdir: /Users/zuhalcolak/.gemini/antigravity/scratch/week7-bookstore-security
+plugins: platformdirs-4.14.5, anyio-4.15.1
+collecting ... collected 15 items
+
+test_main.py::test_search_books PASSED                                   [  6%]
+test_main.py::test_search_books_sql_injection_neutralized PASSED         [ 13%]
+test_main.py::test_get_book PASSED                                       [ 20%]
+test_main.py::test_get_unknown_book_404 PASSED                           [ 26%]
+test_main.py::test_add_and_list_reviews PASSED                           [ 33%]
+test_main.py::test_xss_review_payload_stored_safely PASSED               [ 40%]
+test_main.py::test_cors_headers_restrict_wildcard PASSED                 [ 46%]
+test_main.py::test_secrets_loaded_from_environment PASSED                [ 53%]
+test_main.py::test_build_safe_prompt_strips_delimiters PASSED            [ 60%]
+test_main.py::test_validate_summary_output_success PASSED                [ 66%]
+test_main.py::test_validate_summary_output_rejects_hacked PASSED         [ 73%]
+test_main.py::test_validate_summary_output_rejects_bounds PASSED         [ 80%]
+test_main.py::test_summarize_review_mocked_success PASSED                [ 86%]
+test_main.py::test_summarize_review_mocked_injection_blocked PASSED      [ 93%]
+test_main.py::test_summarize_review_llm_unavailable PASSED               [100%]
+
+============================== 15 passed in 0.70s ==============================
