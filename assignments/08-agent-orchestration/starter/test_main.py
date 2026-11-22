@@ -8,7 +8,11 @@ client = TestClient(app)
 def test_create_and_get_recipe():
     r = client.post(
         "/recipes",
-        json={"title": "Pancakes", "ingredients": ["flour", "milk"], "tags": ["breakfast"]},
+        json={
+            "title": "Pancakes",
+            "ingredients": ["flour", "milk"],
+            "tags": ["breakfast"],
+        },
     )
     assert r.status_code == 200
     rid = r.json()["id"]
