@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quote of the Day</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <h1>Quote of the Day</h1>
+      <p class="subtitle">Daily inspiration, one thought at a time</p>
+    </header>
+
+    <main class="main-content">
+      <article class="quote-card" id="quote-card" aria-live="polite">
+        <div class="quote-card-header">
+          <button id="favorite-btn" class="favorite-btn" aria-label="Toggle favorite quote" title="Toggle favorite">
+            <span id="favorite-icon" class="favorite-icon" aria-hidden="true">🤍</span>
+          </button>
+        </div>
+
+        <blockquote class="quote-content">
+          <p id="quote-text" class="quote-text">Loading inspiration...</p>
+          <cite id="quote-author" class="quote-author"></cite>
+        </blockquote>
+
+        <div class="quote-actions">
+          <button id="new-quote-btn" class="btn btn-primary">New quote</button>
+        </div>
+      </article>
+    </main>
+
+    <footer class="app-footer">
+      <p>Spec-Kit • Spec-Driven Development</p>
+    </footer>
+  </div>
+
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
+
