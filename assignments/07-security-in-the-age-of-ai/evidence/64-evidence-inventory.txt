@@ -1,0 +1,237 @@
+===== EVIDENCE INVENTORY =====
+Evidence directory: C:\Users\User\AI-Augmented-Software-Engineering\assignments\07-security-in-the-age-of-ai\evidence
+01-environment-creation.png | 49,221 bytes
+02-environment-installation.png | 57,506 bytes
+03-environment-verification.png | 30,425 bytes
+04-dependency-installation-1.png | 105,738 bytes
+04-dependency-installation-2.png | 108,403 bytes
+05-dependency-versions-1.png | 70,465 bytes
+05-dependency-versions-2.png | 13,457 bytes
+06-dependency-check.png | 11,410 bytes
+07-baseline-pytest.png | 55,479 bytes
+07-baseline-pytest.txt | 1,235 bytes
+08-docker-verification.png | 53,464 bytes
+09-semgrep-installation.png | 40,888 bytes
+10-semgrep-verification.png | 26,320 bytes
+11-semgrep-baseline-1.png | 56,880 bytes
+11-semgrep-baseline-2.png | 28,678 bytes
+11-semgrep-baseline.txt | 3,542 bytes
+12-semgrep-secrets.png | 53,984 bytes
+12-semgrep-secrets.txt | 1,587 bytes
+13-audit-environment-1.png | 66,921 bytes
+13-audit-environment-2.png | 55,968 bytes
+14-pip-audit-installation-1.png | 117,875 bytes
+14-pip-audit-installation-2.png | 103,914 bytes
+14-pip-audit-installation-3.png | 14,408 bytes
+15-pip-audit-verification.png | 22,439 bytes
+16-baseline-dependencies.png | 38,448 bytes
+16-baseline-dependencies.txt | 515 bytes
+17-pip-audit-baseline.png | 76,344 bytes
+17-pip-audit-baseline.txt | 1,338 bytes
+18-pre-remediation-verification.png | 30,324 bytes
+19-antigravity-sql-prompt.png | 11,381 bytes
+19-antigravity-sql-prompt.txt | 1,912 bytes
+20-antigravity-sql-response-1.png | 46,450 bytes
+20-antigravity-sql-response-2.png | 33,229 bytes
+20-antigravity-sql-response-3.png | 31,577 bytes
+20-antigravity-sql-response-4.png | 34,980 bytes
+20-antigravity-sql-response-5.png | 40,257 bytes
+20-antigravity-sql-response-6.png | 14,351 bytes
+21-sql-remediation-diff.png | 47,097 bytes
+21-sql-remediation-diff.txt | 818 bytes
+22-semgrep-after-sql.png | 49,193 bytes
+22-semgrep-after-sql.txt | 2,143 bytes
+23-pytest-after-sql.png | 56,362 bytes
+23-pytest-after-sql.txt | 1,235 bytes
+24-antigravity-cors-prompt.png | 11,787 bytes
+24-antigravity-cors-prompt.txt | 2,252 bytes
+25-antigravity-cors-response-1.png | 35,640 bytes
+25-antigravity-cors-response-2.png | 34,323 bytes
+25-antigravity-cors-response-3.png | 45,093 bytes
+25-antigravity-cors-response-4.png | 44,122 bytes
+25-antigravity-cors-response-5.png | 38,603 bytes
+25-antigravity-cors-response-6.png | 16,471 bytes
+26-cors-remediation-diff.png | 71,030 bytes
+26-cors-remediation-diff.txt | 1,357 bytes
+27-semgrep-after-cors.png | 56,964 bytes
+27-semgrep-after-cors.txt | 1,712 bytes
+28-pytest-after-cors.png | 56,391 bytes
+28-pytest-after-cors.txt | 1,235 bytes
+29-cors-behavior-test.png | 35,748 bytes
+29-cors-behavior-test.txt | 791 bytes
+30-antigravity-sca-prompt.png | 11,811 bytes
+30-antigravity-sca-prompt.txt.txt | 2,786 bytes
+31-antigravity-sca-response-1.png | 37,180 bytes
+31-antigravity-sca-response-2.png | 45,358 bytes
+31-antigravity-sca-response-3.png | 40,927 bytes
+31-antigravity-sca-response-4.png | 50,419 bytes
+31-antigravity-sca-response-5.png | 37,222 bytes
+31-antigravity-sca-response-6.png | 39,039 bytes
+32-sca-remediation-diff-1.png | 37,786 bytes
+32-sca-remediation-diff-2.png | 63,986 bytes
+32-sca-remediation-diff.txt | 433 bytes
+33-sca-dependency-installation-1.png | 131,774 bytes
+33-sca-dependency-installation-2.png | 43,589 bytes
+33-sca-dependency-installation.txt | 5,089 bytes
+34-sca-dependency-verification-1.png | 59,561 bytes
+34-sca-dependency-verification-2.png | 37,815 bytes
+34-sca-dependency-verification.txt | 1,539 bytes
+35-remediated-dependencies.png | 55,717 bytes
+35-remediated-dependencies.txt | 511 bytes
+36-dependency-comparison.png | 50,814 bytes
+36-dependency-comparison.txt | 711 bytes
+37-pip-audit-after-sca.png | 49,451 bytes
+37-pip-audit-after-sca.txt | 268 bytes
+38-semgrep-after-sca.png | 68,158 bytes
+38-semgrep-after-sca.txt | 1,712 bytes
+39-pytest-after-sca.png | 57,034 bytes
+39-pytest-after-sca.txt | 1,235 bytes
+40-ollama-verification.png | 25,637 bytes
+40-ollama-verification.txt | 260 bytes
+41-ollama-inference.png | 28,058 bytes
+41-ollama-inference.txt | 3,786 bytes
+42-fastapi-startup.png | 21,467 bytes
+42-fastapi-startup.txt | 341 bytes
+43-testing-terminal-verification.png | 47,249 bytes
+44-summarization-baseline-code.png | 57,724 bytes
+44-summarization-baseline-code.txt | 986 bytes
+45-normal-summary-baseline.png | 36,503 bytes
+45-normal-summary-baseline.txt | 113 bytes
+46-prompt-injection-baseline.png | 35,036 bytes
+46-prompt-injection-baseline.txt | 38 bytes
+47-pre-mitigation-git-status.png | 48,371 bytes
+48-antigravity-prompt-mitigation-01.png | 35,035 bytes
+48-antigravity-prompt-mitigation-02.png | 40,322 bytes
+48-antigravity-prompt-mitigation-03.png | 52,145 bytes
+48-antigravity-prompt-mitigation-04.png | 25,161 bytes
+48-antigravity-prompt-mitigation-05.png | 32,935 bytes
+48-antigravity-prompt-mitigation-06.png | 38,660 bytes
+48-antigravity-prompt-mitigation-07.png | 61,041 bytes
+48-antigravity-prompt-mitigation-08.png | 52,459 bytes
+48-antigravity-prompt-mitigation-09.png | 63,079 bytes
+48-antigravity-prompt-mitigation-10.png | 42,381 bytes
+48-antigravity-prompt-mitigation-11.png | 58,107 bytes
+48-antigravity-prompt-mitigation-12.png | 48,196 bytes
+48-antigravity-prompt.png | 24,312 bytes
+48-antigravity-prompt.txt | 2,809 bytes
+49-prompt-mitigation-diff-01.png | 68,116 bytes
+49-prompt-mitigation-diff-02.png | 66,058 bytes
+49-prompt-mitigation-diff-03.png | 58,474 bytes
+49-prompt-mitigation-diff.txt | 4,899 bytes
+50-fastapi-mitigated-startup.png | 22,034 bytes
+50-fastapi-mitigated-startup.txt | 482 bytes
+51-normal-summary-after-mitigation.png | 31,853 bytes
+51-normal-summary-after-mitigation.txt | 121 bytes
+52-prompt-injection-after-mitigation.png | 28,459 bytes
+52-prompt-injection-after-mitigation.txt | 109 bytes
+53-empty-review-after-mitigation.png | 27,466 bytes
+53-empty-review-after-mitigation.txt | 109 bytes
+54-instruction-like-review.png | 31,661 bytes
+54-instruction-like-review.txt | 175 bytes
+55-validator-environment-verification.png | 58,027 bytes
+55-validator-environment-verification.txt | 653 bytes
+56-output-validator-verification-01.png | 44,747 bytes
+56-output-validator-verification-02.png | 31,638 bytes
+56-output-validator-verification-03.png | 50,211 bytes
+56-output-validator-verification-04.png | 29,449 bytes
+56-output-validator-verification.txt | 1,586 bytes
+57-fastapi-shutdown.png | 46,448 bytes
+57-fastapi-shutdown.txt | 40 bytes
+58-semgrep-final.png | 49,648 bytes
+58-semgrep-final.txt | 1,748 bytes
+59-pytest-final.png | 50,868 bytes
+59-pytest-final.txt | 1,270 bytes
+60-dependency-verification.png | 58,336 bytes
+60-dependency-verification.txt | 68 bytes
+60-final-dependencies.txt | 511 bytes
+61-final-git-review.png | 61,598 bytes
+61-final-git-review.txt | 861 bytes
+62-final-source-diff-01.png | 68,990 bytes
+62-final-source-diff-02.png | 64,549 bytes
+62-final-source-diff-03.png | 65,019 bytes
+62-final-source-diff-04.png | 6,872 bytes
+62-final-source-diff.txt | 5,363 bytes
+63-final-source-line-references.txt | 2,459 bytes
+
+===== FILE TYPE SUMMARY =====
+.png: 106
+.txt: 46
+
+===== EVIDENCE NUMBER COVERAGE =====
+01: 1 file(s)
+02: 1 file(s)
+03: 1 file(s)
+04: 2 file(s)
+05: 2 file(s)
+06: 1 file(s)
+07: 2 file(s)
+08: 1 file(s)
+09: 1 file(s)
+10: 1 file(s)
+11: 3 file(s)
+12: 2 file(s)
+13: 2 file(s)
+14: 3 file(s)
+15: 1 file(s)
+16: 2 file(s)
+17: 2 file(s)
+18: 1 file(s)
+19: 2 file(s)
+20: 6 file(s)
+21: 2 file(s)
+22: 2 file(s)
+23: 2 file(s)
+24: 2 file(s)
+25: 6 file(s)
+26: 2 file(s)
+27: 2 file(s)
+28: 2 file(s)
+29: 2 file(s)
+30: 2 file(s)
+31: 6 file(s)
+32: 3 file(s)
+33: 3 file(s)
+34: 3 file(s)
+35: 2 file(s)
+36: 2 file(s)
+37: 2 file(s)
+38: 2 file(s)
+39: 2 file(s)
+40: 2 file(s)
+41: 2 file(s)
+42: 2 file(s)
+43: 1 file(s)
+44: 2 file(s)
+45: 2 file(s)
+46: 2 file(s)
+47: 1 file(s)
+48: 14 file(s)
+49: 4 file(s)
+50: 2 file(s)
+51: 2 file(s)
+52: 2 file(s)
+53: 2 file(s)
+54: 2 file(s)
+55: 2 file(s)
+56: 5 file(s)
+57: 2 file(s)
+58: 2 file(s)
+59: 2 file(s)
+60: 3 file(s)
+61: 2 file(s)
+62: 5 file(s)
+63: 1 file(s)
+
+===== INTEGRITY SUMMARY =====
+Total evidence files: 152
+Numbered evidence groups: 63
+Missing numbers from 01-63: []
+Empty files: []
+Unreadable files: []
+Unnumbered files: []
+SHA-256 entries generated: 152
+Manifest: 64-evidence-sha256.txt
+
+===== FINAL RESULT =====
+Basic file integrity: PASS
+Evidence inventory pipeline exit code: 0

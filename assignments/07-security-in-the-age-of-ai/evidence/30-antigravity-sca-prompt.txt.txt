@@ -1,0 +1,66 @@
+You are assisting with Week 7 — Security in the Age of AI: Scan, Inject, Triage.
+
+Target directory:
+assignments/07-security-in-the-age-of-ai/starter/
+
+Current branch:
+week7-security-in-the-age-of-ai
+
+**Task: Remediation 3 — Vulnerable dependencies (Software Composition Analysis) only.**
+
+The original requirements.txt contains the intentionally outdated dependency:
+
+requests==2.25.1
+
+An independent baseline audit was performed using pip-audit 2.10.1 in a separate Conda environment.
+
+Evidence files:
+
+- ../evidence/16-baseline-dependencies.txt
+- ../evidence/17-pip-audit-baseline.txt
+
+The audit reported 24 vulnerability entries across three packages:
+
+- requests 2.25.1
+- urllib3 1.26.20
+- idna 2.10
+
+Some advisory IDs are repeated in the audit output.
+
+The previous SQL injection and CORS remediations have already been independently verified. Semgrep currently reports zero findings, all three original pytest tests pass, and all three targeted CORS checks pass.
+
+**Requirements:**
+
+1. Inspect requirements.txt and the baseline dependency audit evidence.
+2. Inspect whether and how requests is used by the application.
+3. Propose and implement a minimal dependency remediation using a compatible, patched requests version supported by the audit evidence.
+4. Consider the vulnerable transitive dependencies urllib3 and idna.
+5. Explain whether upgrading requests alone guarantees that existing vulnerable transitive dependencies will be upgraded.
+6. Preserve all other application functionality and existing dependency requirements unless a change is necessary and justified.
+7. Preserve the previously verified SQL and CORS remediations.
+8. Preserve the original vulnerability documentation header.
+9. Do not modify frontend XSS, hardcoded credentials or prompt-injection behavior.
+10. Do not suppress vulnerability advisories or scanner rules.
+11. Do not modify existing tests.
+12. Do not install packages, modify Conda environments, commit changes or push to GitHub.
+
+**Acceptance criteria:**
+
+- The outdated requests dependency is remediated in requirements.txt.
+- The proposed dependency versions address the baseline advisories, subject to independent verification.
+- Changes are minimal and justified.
+- Previous security remediations remain intact.
+
+After implementing the fix, provide:
+
+- Original dependency declaration.
+- Corrected dependency declaration.
+- File and line numbers.
+- Explanation of the selected version.
+- Explanation of transitive dependency implications.
+- Summary of changes.
+- Any limitations or remaining concerns.
+
+Do not claim that pip-audit, Semgrep or pytest passed unless you actually executed them successfully.
+
+Stop after this single remediation and wait for human review.

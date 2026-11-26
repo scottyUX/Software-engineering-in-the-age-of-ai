@@ -1,0 +1,37 @@
+diff --git a/assignments/07-security-in-the-age-of-ai/starter/main.py b/assignments/07-security-in-the-age-of-ai/starter/main.py
+index 4e0dc30..3bff6e0 100644
+--- a/assignments/07-security-in-the-age-of-ai/starter/main.py
++++ b/assignments/07-security-in-the-age-of-ai/starter/main.py
+@@ -35,13 +35,12 @@ SECRET_TOKEN = "supersecret-admin-token"
+ 
+ app = FastAPI(title="Vulnerable Bookstore")
+ 
+-# VULN: wide-open CORS with credentials allowed
+ app.add_middleware(
+     CORSMiddleware,
+-    allow_origins=["*"],
+-    allow_credentials=True,
+-    allow_methods=["*"],
+-    allow_headers=["*"],
++    allow_origins=["http://localhost:8000", "http://127.0.0.1:8000"],
++    allow_credentials=False,
++    allow_methods=["GET", "POST"],
++    allow_headers=["Content-Type"],
+ )
+ 
+ OLLAMA_URL = "http://localhost:11434/api/generate"
+@@ -96,10 +95,11 @@ class SummarizeIn(BaseModel):
+ 
+ @app.get("/books")
+ def search_books(q: str = ""):
+-    # VULN: SQL injection — user input concatenated straight into the query
+-    query = f"SELECT id, title, author FROM books WHERE title LIKE '%{q}%'"
+     with closing(get_db()) as conn:
+-        rows = conn.execute(query).fetchall()
++        rows = conn.execute(
++            "SELECT id, title, author FROM books WHERE title LIKE ?",
++            (f"%{q}%",),
++        ).fetchall()
+     return [dict(r) for r in rows]
+ 
+ 

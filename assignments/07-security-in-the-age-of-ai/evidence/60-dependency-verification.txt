@@ -1,0 +1,2 @@
+Dependency snapshot exit code: 0
+Dependency comparison exit code: 0

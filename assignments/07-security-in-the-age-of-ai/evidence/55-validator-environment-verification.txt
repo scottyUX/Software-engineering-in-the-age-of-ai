@@ -1,0 +1,14 @@
+===== WORKING DIRECTORY =====
+/c/Users/User/AI-Augmented-Software-Engineering/assignments/07-security-in-the-age-of-ai/starter
+===== GIT BRANCH =====
+week7-security-in-the-age-of-ai
+===== PYTHON EXECUTABLE =====
+/c/Users/User/miniconda3/envs/week7-security/python
+===== PYTHON VERSION =====
+Python 3.12.16
+===== ACTIVE ENVIRONMENT =====
+CONDA_PREFIX=C:\Users\User\miniconda3\envs\week7-security
+VIRTUAL_ENV=/c/Users/User/AI-Augmented-Software-Engineering/assignments/03-anatomy-of-coding-agents/gemini-cli-dissection/.venv
+===== ACTUAL PYTHON EXECUTABLE =====
+C:\Users\User\miniconda3\envs\week7-security\python.exe
+Verification pipeline exit code: 0

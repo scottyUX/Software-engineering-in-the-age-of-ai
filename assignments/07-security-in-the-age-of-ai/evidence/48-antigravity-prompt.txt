@@ -1,0 +1,56 @@
+You are assisting with Week 7 — Security in the Age of AI: Scan, Inject, Triage.
+
+Target directory:
+assignments/07-security-in-the-age-of-ai/starter/
+
+TASK: Part 3 — Prompt Injection Mitigation.
+
+The previous three remediations have already been independently verified:
+
+1. SQL injection: parameterized SQLite query.
+2. Insecure CORS: restricted origins, methods, headers, and credentials.
+3. Vulnerable dependencies: upgraded requests, urllib3, and idna.
+
+Semgrep currently reports zero findings. pip-audit reports no known vulnerabilities in the audited dependency snapshot. All three original pytest tests pass.
+
+The prompt injection vulnerability has now been experimentally reproduced against the local FastAPI application using Ollama llama3.1:8b.
+
+Baseline evidence:
+- evidence/44-summarization-baseline-code.txt
+- evidence/45-normal-summary-baseline.txt
+- evidence/46-prompt-injection-baseline.txt
+
+The normal review returned a relevant summary, whereas the injected review returned exactly HACKED with HTTP status 200.
+
+Implement a narrowly scoped defensive mitigation in the POST /summarize-review endpoint in main.py.
+
+Requirements:
+
+1. Separate trusted summarization instructions from untrusted review content.
+2. Use Ollama's system instruction capability where appropriate.
+3. Clearly delimit or structurally encode the untrusted review content.
+4. Explicitly instruct the model to treat review content as data rather than instructions.
+5. Preserve legitimate one-sentence book-review summarization.
+6. Consider appropriate output validation and safe fallback behavior.
+7. Do not rely solely on blocking the specific word HACKED or matching the demonstrated input.
+8. Preserve the existing request and response schema, endpoint, Ollama model, and timeout.
+9. Preserve all three previous security remediations.
+10. Preserve the original vulnerability documentation header.
+11. Do not modify requirements.txt, static/index.html, or test_main.py.
+12. Do not install packages, change environments, create commits, or push changes.
+13. Do not modify unrelated planted vulnerabilities.
+
+After implementing the mitigation, provide:
+
+- Modified file and exact line numbers.
+- Original vulnerable code.
+- Corrected code.
+- Explanation of each defensive measure.
+- Explanation of how trusted instructions are separated from untrusted data.
+- Expected behavior for legitimate reviews and the previously demonstrated injection.
+- Summary of changes.
+- Limitations and remaining security concerns.
+
+Do not claim that prompt injection has been completely eliminated. Distinguish expected behavior from experimentally verified behavior.
+
+Stop after implementation and wait for human review. Independent runtime verification will be performed manually.

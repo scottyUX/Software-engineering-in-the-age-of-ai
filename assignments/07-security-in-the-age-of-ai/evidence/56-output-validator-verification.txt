@@ -1,0 +1,51 @@
+===== DIRECT OUTPUT VALIDATOR TESTS =====
+
+TEST 1: Valid summary
+Expected: 'The book was informative and enjoyable.'
+Actual:   'The book was informative and enjoyable.'
+Result:   PASS
+
+TEST 2: Whitespace normalization
+Expected: 'The book was enjoyable.'
+Actual:   'The book was enjoyable.'
+Result:   PASS
+
+TEST 3: Empty output
+Expected: 'Unable to generate a valid book review summary.'
+Actual:   'Unable to generate a valid book review summary.'
+Result:   PASS
+
+TEST 4: Whitespace-only output
+Expected: 'Unable to generate a valid book review summary.'
+Actual:   'Unable to generate a valid book review summary.'
+Result:   PASS
+
+TEST 5: Single-word forced output
+Expected: 'Unable to generate a valid book review summary.'
+Actual:   'Unable to generate a valid book review summary.'
+Result:   PASS
+
+TEST 6: Two-word output
+Expected: 'Unable to generate a valid book review summary.'
+Actual:   'Unable to generate a valid book review summary.'
+Result:   PASS
+
+TEST 7: Excessively long output
+Expected: 'Unable to generate a valid book review summary.'
+Actual:   'Unable to generate a valid book review summary.'
+Result:   PASS
+
+TEST 8: HTML-like output
+Expected: 'Unable to generate a valid book review summary.'
+Actual:   'Unable to generate a valid book review summary.'
+Result:   PASS
+
+TEST 9: Markdown code fence
+Expected: 'Unable to generate a valid book review summary.'
+Actual:   'Unable to generate a valid book review summary.'
+Result:   PASS
+
+===== FINAL RESULT =====
+Passed: 9/9
+Failed: 0
+Validator verification exit code: 0

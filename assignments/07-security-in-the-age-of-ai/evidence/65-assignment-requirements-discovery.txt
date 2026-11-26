@@ -1,0 +1,12 @@
+===== ASSIGNMENT DIRECTORY =====
+total 92
+drwxr-xr-x 1 User 197121    0 Nov 26 13:39 ./
+drwxr-xr-x 1 User 197121    0 Nov 26 13:21 ../
+-rw-r--r-- 1 User 197121 2723 Nov 26 13:21 assignment.md
+drwxr-xr-x 1 User 197121    0 Nov 26 16:44 evidence/
+drwxr-xr-x 1 User 197121    0 Nov 26 16:32 starter/
+
+===== ASSIGNMENT INSTRUCTION FILES =====
+../assignment.md
+../starter/README.md
+Requirements discovery exit code: 0
