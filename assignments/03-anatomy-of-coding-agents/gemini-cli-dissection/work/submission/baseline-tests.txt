@@ -1,0 +1,34 @@
+..F.....F.....                                                           [100%]
+================================== FAILURES ===================================
+________________ test_add_same_item_twice_increments_quantity _________________
+
+    def test_add_same_item_twice_increments_quantity():
+        cart = Cart()
+        cart.add_item("MUG")
+        cart.add_item("MUG", 2)
+>       assert cart.items == {"MUG": 3}
+E       AssertionError: assert {'MUG': 2} == {'MUG': 3}
+E         
+E         Differing items:
+E         {'MUG': 2} != {'MUG': 3}
+E         Use -v to get more diff
+
+tests\test_cart.py:21: AssertionError
+___________________ test_fixed_discount_applied_before_tax ____________________
+
+    def test_fixed_discount_applied_before_tax():
+        cart = Cart()
+        cart.add_item("TEE")
+        cart.add_item("TEE")
+        cart.apply_code("TENOFF")
+>       assert cart.total() == 3240  # (4000 - 1000) + 8% tax
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       assert 1160 == 3240
+E        +  where 1160 = total()
+E        +    where total = <shopcart.cart.Cart object at 0x00000231660AF530>.total
+
+tests\test_cart.py:61: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_cart.py::test_add_same_item_twice_increments_quantity - Ass...
+FAILED tests/test_cart.py::test_fixed_discount_applied_before_tax - assert 11...
+2 failed, 12 passed in 0.10s
