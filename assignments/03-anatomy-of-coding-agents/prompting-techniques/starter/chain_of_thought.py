@@ -18,7 +18,17 @@ POLICY = """Refund policy:
 """
 
 # TODO: Fill this in! Encourage step-by-step reasoning, ending with DECISION: YES/NO.
-YOUR_SYSTEM_PROMPT = ""
+YOUR_SYSTEM_PROMPT = """You are a helpful customer support assistant evaluating refund requests against the policy.
+
+Follow these instructions strictly:
+1. Think step-by-step to evaluate if the customer request meets all refund policy criteria.
+2. Provide your step-by-step reasoning first.
+3. Conclude your response on a new line with exactly 'DECISION: YES' or 'DECISION: NO'.
+
+Example:
+Reasoning: The item was purchased 15 days ago, is unused, and was not a final-sale item. This satisfies all policy requirements.
+DECISION: YES
+"""
 
 CASES = [
     ("Bought 10 days ago, unused, not final sale.", "YES"),

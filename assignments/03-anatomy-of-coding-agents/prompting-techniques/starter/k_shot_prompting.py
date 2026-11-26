@@ -9,11 +9,27 @@ Run:  python k_shot_prompting.py
 """
 from ollama import chat
 
-MODEL = "llama3.1:8b"
-NUM_RUNS = 5
+MODEL = "llama3.2:1b"
+NUM_RUNS = 1
 
-# TODO: Fill this in! Include a few labeled examples (k-shot) in the system prompt.
-YOUR_SYSTEM_PROMPT = ""
+YOUR_SYSTEM_PROMPT = """Classify the customer message into exactly one of these labels: billing, shipping, returns, technical, or other.
+Output ONLY the lowercase label name with no additional words, prefixes, or punctuation.
+
+Input: Where is my order?
+shipping
+
+Input: My card was charged twice.
+billing
+
+Input: The app crashes when opening settings.
+technical
+
+Input: I want to return this shirt for a refund.
+returns
+
+Input: What time is your store open?
+other
+"""
 
 CASES = [
     ("My card was charged twice for order 4412.", "billing"),
