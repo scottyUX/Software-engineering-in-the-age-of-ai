@@ -1,0 +1,52 @@
+You are assisting with Week 7 — Security in the Age of AI: Scan, Inject, Triage.
+
+Target directory:
+assignments/07-security-in-the-age-of-ai/starter/
+
+Current branch:
+week7-security-in-the-age-of-ai
+
+**Task: Remediation 2 — Insecure CORS configuration only.**
+
+The baseline Semgrep scan reported the following finding in main.py, line 41:
+
+python.fastapi.security.wildcard-cors.wildcard-cors
+
+The application currently uses allow_origins=["*"].
+
+The previous SQL injection remediation has already been independently verified: both SQL-related Semgrep findings disappeared, and all three existing pytest tests passed.
+
+**Requirements:**
+
+1. Inspect the existing FastAPI CORS middleware configuration.
+2. Inspect how the frontend is served and how it communicates with the backend.
+3. Replace the wildcard origin policy with an appropriately restricted policy based on the application's actual architecture.
+4. Review whether cross-origin credentials are necessary. Disable them if unnecessary.
+5. Preserve legitimate frontend functionality and existing API behavior.
+6. Preserve the previously implemented SQL parameterization.
+7. Preserve the original vulnerability documentation header.
+8. Do not modify hardcoded credentials, dependencies, frontend XSS or prompt-injection behavior.
+9. Do not suppress Semgrep rules or add scanner-ignore comments.
+10. Do not modify existing tests, install packages, commit changes or push to GitHub.
+
+**Acceptance criteria:**
+
+- The insecure wildcard CORS configuration is removed.
+- Legitimate frontend functionality is preserved.
+- The previous SQL remediation remains intact.
+- Changes are minimal and restricted to the CORS remediation.
+- The remaining Semgrep CORS finding should be resolved, subject to independent verification.
+
+After implementing the fix, provide:
+
+- Original vulnerable code.
+- Corrected code.
+- File and line numbers.
+- Explanation of the selected origin policy.
+- Explanation of the credentials configuration.
+- Summary of changes.
+- Any limitations or remaining concerns.
+
+Do not claim that tests or security scans passed unless you actually executed them successfully.
+
+Stop after this single remediation and wait for human review.

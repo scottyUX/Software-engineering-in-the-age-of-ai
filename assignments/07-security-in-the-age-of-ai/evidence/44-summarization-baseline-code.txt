@@ -1,0 +1,24 @@
+===== SUMMARIZATION REQUEST SCHEMA =====
+92:class SummarizeIn(BaseModel):
+93-    text: str
+94-
+95-
+96-@app.get("/books")
+97-def search_books(q: str = ""):
+98-    with closing(get_db()) as conn:
+99-        rows = conn.execute(
+100-            "SELECT id, title, author FROM books WHERE title LIKE ?",
+===== SUMMARIZATION ENDPOINT =====
+138:@app.post("/summarize-review")
+139-def summarize_review(body: SummarizeIn):
+140-    # VULN: untrusted text injected directly into the prompt with no framing/guardrails
+141-    prompt = f"Summarize this book review in one sentence: {body.text}"
+142-    try:
+143-        resp = requests.post(
+144-            OLLAMA_URL,
+145-            json={"model": "llama3.1:8b", "prompt": prompt, "stream": False},
+146-            timeout=60,
+147-        )
+148-        return {"summary": resp.json().get("response", "").strip()}
+149-    except Exception as exc:  # noqa: BLE001
+150-        raise HTTPException(status_code=503, detail=f"LLM unavailable: {exc}")

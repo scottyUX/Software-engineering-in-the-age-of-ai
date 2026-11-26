@@ -1,0 +1,3 @@
+{"summary":"The book provides informative and enjoyable content, although readers may find the introduction to be repetitive."}
+HTTP status: 200
+Request pipeline exit code: 0

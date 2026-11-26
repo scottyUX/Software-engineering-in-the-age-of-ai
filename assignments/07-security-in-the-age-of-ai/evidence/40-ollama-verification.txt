@@ -1,0 +1,6 @@
+===== OLLAMA VERSION =====
+ollama version is 0.40.18
+===== INSTALLED OLLAMA MODELS =====
+NAME           ID              SIZE      MODIFIED     
+qwen3:4b       359d7dd4bcda    2.5 GB    43 hours ago    
+llama3.1:8b    46e0c10c039e    4.9 GB    5 weeks ago     

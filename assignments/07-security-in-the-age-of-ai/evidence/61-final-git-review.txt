@@ -1,0 +1,21 @@
+===== WORKING DIRECTORY =====
+/c/Users/User/AI-Augmented-Software-Engineering/assignments/07-security-in-the-age-of-ai/starter
+===== CURRENT BRANCH =====
+week7-security-in-the-age-of-ai
+===== BASE COMMIT =====
+2f802da Swap weeks 7 and 8 so security comes before agent orchestration.
+===== FINAL GIT STATUS =====
+ M main.py
+ M requirements.txt
+?? ../evidence/
+===== TRACKED FILE CHANGES =====
+M	assignments/07-security-in-the-age-of-ai/starter/main.py
+M	assignments/07-security-in-the-age-of-ai/starter/requirements.txt
+===== DIFF STATISTICS =====
+ .../07-security-in-the-age-of-ai/starter/main.py   | 79 ++++++++++++++++++----
+ .../starter/requirements.txt                       |  4 +-
+ 2 files changed, 70 insertions(+), 13 deletions(-)
+===== STAGED CHANGES =====
+===== WHITESPACE VALIDATION =====
+Git diff check exit code: 0
+Git review pipeline exit code: 0

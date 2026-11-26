@@ -1,0 +1,59 @@
+===== FINAL SOURCE LINE REFERENCES =====
+
+===== CORS REMEDIATION =====
+10:  - Overly permissive CORS (allow_origins=["*"] with credentials)
+28:from fastapi.middleware.cors import CORSMiddleware
+40:    CORSMiddleware,
+41:    allow_origins=["http://localhost:8000", "http://127.0.0.1:8000"],
+42:    allow_credentials=False,
+43:    allow_methods=["GET", "POST"],
+44:    allow_headers=["Content-Type"],
+
+===== SQL INJECTION REMEDIATION =====
+58:        conn.execute(
+65:        conn.execute(
+72:        count = conn.execute("SELECT COUNT(*) AS n FROM books").fetchone()["n"]
+74:            conn.executemany(
+98:def search_books(q: str = ""):
+100:        rows = conn.execute(
+101:            "SELECT id, title, author FROM books WHERE title LIKE ?",
+110:        row = conn.execute(
+122:        conn.execute(
+133:        rows = conn.execute(
+
+===== PROMPT INJECTION MITIGATION =====
+139:SUMMARIZE_SYSTEM_PROMPT = (
+151:SAFE_FALLBACK_SUMMARY = "Unable to generate a valid book review summary."
+152:_MAX_SUMMARY_CHARS = 500
+153:_MIN_SUMMARY_WORDS = 3
+154:_PROMPT_LEAK_MARKERS = ("untrusted_review", "review_text", "sole task is to summarize")
+157:def _build_review_prompt(review_text: str) -> str:
+161:        json.dumps({"review_text": review_text}, ensure_ascii=False)
+171:def _validate_summary(raw_response: str) -> str:
+173:    normalized = " ".join(raw_response.split())
+174:    if not normalized or len(normalized) > _MAX_SUMMARY_CHARS:
+175:        return SAFE_FALLBACK_SUMMARY
+176:    if len(normalized.split()) < _MIN_SUMMARY_WORDS:
+177:        return SAFE_FALLBACK_SUMMARY
+179:        return SAFE_FALLBACK_SUMMARY
+181:    if any(marker in lowered for marker in _PROMPT_LEAK_MARKERS):
+182:        return SAFE_FALLBACK_SUMMARY
+187:def summarize_review(body: SummarizeIn):
+188:    if not body.text.strip():
+189:        return {"summary": SAFE_FALLBACK_SUMMARY}
+195:                "system": SUMMARIZE_SYSTEM_PROMPT,
+201:        resp.raise_for_status()
+202:        raw_summary = resp.json().get("response") or ""
+203:        return {"summary": _validate_summary(raw_summary)}
+
+===== DEPENDENCY REQUIREMENTS =====
+     1	# NOTE: `requests` is intentionally pinned to an OLD version so your SCA / dependency
+     2	# scan has something to flag. Do not "fix" it until the assignment asks you to.
+     3	fastapi
+     4	uvicorn
+     5	httpx
+     6	pytest
+     7	requests>=2.33.0
+     8	urllib3>=2.8.0
+     9	idna>=3.15
+Source reference pipeline exit code: 0

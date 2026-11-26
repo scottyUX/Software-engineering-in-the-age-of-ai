@@ -1,0 +1,19 @@
+diff --git a/assignments/07-security-in-the-age-of-ai/starter/main.py b/assignments/07-security-in-the-age-of-ai/starter/main.py
+index 4e0dc30..5cdfa0e 100644
+--- a/assignments/07-security-in-the-age-of-ai/starter/main.py
++++ b/assignments/07-security-in-the-age-of-ai/starter/main.py
+@@ -96,10 +96,11 @@ class SummarizeIn(BaseModel):
+ 
+ @app.get("/books")
+ def search_books(q: str = ""):
+-    # VULN: SQL injection — user input concatenated straight into the query
+-    query = f"SELECT id, title, author FROM books WHERE title LIKE '%{q}%'"
+     with closing(get_db()) as conn:
+-        rows = conn.execute(query).fetchall()
++        rows = conn.execute(
++            "SELECT id, title, author FROM books WHERE title LIKE ?",
++            (f"%{q}%",),
++        ).fetchall()
+     return [dict(r) for r in rows]
+ 
+ 

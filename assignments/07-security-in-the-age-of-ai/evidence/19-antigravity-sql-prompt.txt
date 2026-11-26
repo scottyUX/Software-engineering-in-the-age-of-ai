@@ -1,0 +1,46 @@
+You are assisting with Week 7 — Security in the Age of AI: Scan, Inject, Triage.
+
+Target directory:
+assignments/07-security-in-the-age-of-ai/starter/
+
+Current branch:
+week7-security-in-the-age-of-ai
+
+**Task: Remediation 1 — SQL injection only.**
+
+The baseline Semgrep scan reported two findings at main.py, line 102:
+
+- python.lang.security.audit.formatted-sql-query.formatted-sql-query
+- python.sqlalchemy.security.sqlalchemy-execute-raw-query.sqlalchemy-execute-raw-query
+
+Both findings refer to the same underlying vulnerability involving dynamically constructed SQL executed through SQLite.
+
+**Requirements:**
+
+1. Inspect the vulnerable book search endpoint in main.py.
+2. Replace unsafe SQL string formatting with SQLite parameterized queries.
+3. Preserve the existing search behavior, response format and endpoint interface.
+4. Ensure user-provided search values are treated as data rather than executable SQL.
+5. Preserve the original vulnerability documentation in the file header.
+6. Do not modify CORS, hardcoded credentials, frontend code, dependencies or prompt-injection behavior.
+7. Do not suppress Semgrep rules or add scanner-ignore comments.
+8. Do not modify the existing tests.
+9. Do not install packages, commit changes or push to GitHub.
+
+**Acceptance criteria:**
+
+- The vulnerable SQL query is parameterized.
+- Existing functionality is preserved.
+- Changes are minimal and restricted to the relevant SQL injection remediation in main.py.
+- Both SQL-related Semgrep findings should be resolved, subject to independent verification.
+
+After implementing the fix, provide:
+
+- The original vulnerable code.
+- The corrected code.
+- File and line numbers.
+- An explanation of why the fix prevents SQL injection.
+- A summary of the changes made.
+- Any limitations or remaining concerns.
+
+Stop after this single remediation and wait for human review.

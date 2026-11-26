@@ -1,0 +1,12 @@
+diff --git a/assignments/07-security-in-the-age-of-ai/starter/requirements.txt b/assignments/07-security-in-the-age-of-ai/starter/requirements.txt
+index 0a249dc..6d789da 100644
+--- a/assignments/07-security-in-the-age-of-ai/starter/requirements.txt
++++ b/assignments/07-security-in-the-age-of-ai/starter/requirements.txt
+@@ -4,4 +4,6 @@ fastapi
+ uvicorn
+ httpx
+ pytest
+-requests==2.25.1
++requests>=2.33.0
++urllib3>=2.8.0
++idna>=3.15

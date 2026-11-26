@@ -4,4 +4,6 @@ fastapi
 uvicorn
 httpx
 pytest
-requests==2.25.1
+requests>=2.33.0
+urllib3>=2.8.0
+idna>=3.15
